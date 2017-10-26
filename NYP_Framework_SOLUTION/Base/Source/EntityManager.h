@@ -18,6 +18,16 @@ public:
 	void AddEntity(EntityBase* _newEntity);
 	bool RemoveEntity(EntityBase* _existingEntity);
 
+	void AddEntity(EntityBase* _newEntity, std::string type);
+	bool RemoveEntity(EntityBase* _existingEntity, std::string type);
+/*
+	void AddFixedEntity(EntityBase* _newEntity);
+	bool RemoveFixedEntity(EntityBase* _existingEntity);
+
+	void AddProjectileEntity(EntityBase* _newEntity);
+	bool RemoveProjectileEntity(EntityBase* _existingEntity);*/
+
+
 private:
 	EntityManager();
 	virtual ~EntityManager();
@@ -32,6 +42,9 @@ private:
 	bool CheckForCollision(void);
 
 	std::list<EntityBase*> entityList;
+
+	std::list<EntityBase*> mobileList;
+	std::list<EntityBase*> projectileList;
 };
 
 #endif // ENTITY_MANAGER_H
