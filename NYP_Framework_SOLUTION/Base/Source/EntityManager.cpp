@@ -94,11 +94,11 @@ void EntityManager::Render()
 		(*it)->Render();
 	}
 
-	std::list<EntityBase*>::iterator it3, end3;
-	end3 = projectileList.end();
-	for (it3 = projectileList.begin(); it3 != end3; ++it3)
+	std::list<EntityBase*>::iterator it2, end2;
+	end2 = projectileList.end();
+	for (it2 = projectileList.begin(); it2 != end2; ++it2)
 	{
-		(*it3)->Render();
+		(*it2)->Render();
 	}
 }
 
@@ -110,7 +110,7 @@ void EntityManager::RenderUI()
 	end = entityList.end();
 	for (it = entityList.begin(); it != end; ++it)
 	{
-		(*it)->Render();
+		(*it)->RenderUI();
 	}
 }
 
@@ -149,60 +149,34 @@ bool EntityManager::RemoveEntity(EntityBase* _existingEntity)
 	return false;
 }
 
-// Remove an entity from this EntityManager
-bool EntityManager::RemoveEntity(EntityBase* _existingEntity, std::string type)
-{
-	// Find the entity's iterator
-	std::list<EntityBase*>::iterator findIter = std::find(entityList.begin(), entityList.end(), _existingEntity);
-
-	// Delete the entity if found
-	if (findIter != entityList.end())
-	{
-		delete *findIter;
-		findIter = entityList.erase(findIter);
-		return true;
-	}
-	// Return false if not found
-	return false;
-}
-
-//void EntityManager::AddFixedEntity(EntityBase * _newEntity)
-//{
-//	fixedEntityList.push_back(_newEntity);
-//}
-//
-//bool EntityManager::RemoveFixedEntity(EntityBase * _existingEntity)
+//// Remove an entity from this EntityManager
+//bool EntityManager::RemoveEntity(EntityBase* _existingEntity, std::string type)
 //{
 //	// Find the entity's iterator
-//	std::list<EntityBase*>::iterator findIter = std::find(fixedEntityList.begin(), fixedEntityList.end(), _existingEntity);
-//
-//	// Delete the entity if found
-//	if (findIter != fixedEntityList.end())
+//	if (type == "projectile")
 //	{
-//		delete *findIter;
-//		findIter = fixedEntityList.erase(findIter);
-//		return true;
+//		std::list<EntityBase*>::iterator findPrjIter = std::find(projectileList.begin(), projectileList.end(), _existingEntity);
+//
+//		// Delete the entity if found
+//		if (findPrjIter != projectileList.end())
+//		{
+//			delete *findPrjIter;
+//			findPrjIter = projectileList.erase(findPrjIter);
+//			return true;
+//		}
 //	}
-//	// Return false if not found
-//	return false;
-//}
-//
-//void EntityManager::AddProjectileEntity(EntityBase * _newEntity)
-//{
-//	projectileList.push_back(_newEntity);
-//}
-//
-//bool EntityManager::RemoveProjectileEntity(EntityBase * _existingEntity)
-//{
-//	// Find the entity's iterator
-//	std::list<EntityBase*>::iterator findIter = std::find(projectileList.begin(), projectileList.end(), _existingEntity);
-//
-//	// Delete the entity if found
-//	if (findIter != projectileList.end())
+//	else if (type == "mobile")
 //	{
-//		delete *findIter;
-//		findIter = projectileList.erase(findIter);
-//		return true;
+//		std::list<EntityBase*>::iterator findMobIter = std::find(mobileList.begin(), mobileList.end(), _existingEntity);
+//
+//		// Delete the entity if found
+//		if (findMobIter != mobileList.end())
+//		{
+//			delete *findMobIter;
+//			findMobIter = mobileList.erase(findMobIter);
+//			return true;
+//		}
+//		
 //	}
 //	// Return false if not found
 //	return false;
@@ -363,12 +337,12 @@ bool EntityManager::CheckForCollision(void)
 			EntityBase *thisEntity = dynamic_cast<EntityBase*>(*colliderThis);
 
 			// Check for collision with another collider class
-			colliderThatEnd = entityList.end();
+			colliderThatEnd = projectileList.end();
 			int counter = 0;
-			for (colliderThat = colliderThis; colliderThat != colliderThatEnd; ++colliderThat)
+			for (colliderThat = projectileList.begin(); colliderThat != colliderThatEnd; ++colliderThat)
 			{
-				if (colliderThat == colliderThis)
-					continue;
+				/*if (colliderThat == colliderThis)
+					continue;*/
 
 				if ((*colliderThat)->HasCollider())
 				{

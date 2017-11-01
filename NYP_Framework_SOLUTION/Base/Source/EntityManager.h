@@ -20,6 +20,7 @@ public:
 
 	void AddEntity(EntityBase* _newEntity, std::string type);
 	bool RemoveEntity(EntityBase* _existingEntity, std::string type);
+
 /*
 	void AddFixedEntity(EntityBase* _newEntity);
 	bool RemoveFixedEntity(EntityBase* _existingEntity);
@@ -42,7 +43,6 @@ private:
 	bool CheckForCollision(void);
 
 	std::list<EntityBase*> entityList;
-
 	std::list<EntityBase*> mobileList;
 	std::list<EntityBase*> projectileList;
 };
