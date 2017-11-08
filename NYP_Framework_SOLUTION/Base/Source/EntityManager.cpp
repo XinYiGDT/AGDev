@@ -372,17 +372,15 @@ bool EntityManager::CheckForCollision(void)
 	colliderThisEnd = projectileList.end();
 	for (colliderThis = projectileList.begin(); colliderThis != colliderThisEnd; ++colliderThis)
 	{
-
 		// Check if this entity is a CLaser type
-		if ((*colliderThis)->GetIsLaser())
+		if ((*colliderThis)->GetIsLaser())	//laser
 		{
 			// Dynamic cast it to a CLaser class
 			CLaser* thisEntity = dynamic_cast<CLaser*>(*colliderThis);
 
 			// Check for collision with another collider class
 			colliderThatEnd = projectileList.end();
-			int counter = 0;
-			for (colliderThat = projectileList.begin(); colliderThat != colliderThatEnd; ++colliderThat)
+			for (colliderThat = projectileList.begin(); colliderThat != colliderThatEnd; ++colliderThat)	//checks laser with bullets
 			{
 				if (colliderThat == colliderThis)
 					continue;
@@ -406,17 +404,31 @@ bool EntityManager::CheckForCollision(void)
 					}
 				}
 			}
+			colliderThatEnd = entityList.end();
+			for (colliderThat = entityList.begin(); colliderThat != colliderThatEnd; ++colliderThat)	//checks laser with fixed obj
+			{
+				if ((*colliderThat)->HasCollider())
+				{
+					EntityBase *thatEntity = dynamic_cast<EntityBase*>(*colliderThat);
+					if (CheckSphereCollision(thisEntity, thatEntity))
+					{
+						if (CheckAABBCollision(thisEntity, thatEntity))
+						{
+							thisEntity->SetIsDone(true);
+							thatEntity->SetIsDone(true);
+						}
+					}
+				}
+			}
 		}
-		else if ((*colliderThis)->HasCollider())
+		else if ((*colliderThis)->HasCollider())	//bullets
 		{
 			// This object was derived from a CCollider class, then it will have Collision Detection methods
-			//CCollider *thisCollider = dynamic_cast<CCollider*>(*colliderThis);
 			EntityBase *thisEntity = dynamic_cast<EntityBase*>(*colliderThis);
 
 			// Check for collision with another collider class
 			colliderThatEnd = entityList.end();
-			int counter = 0;
-			for (colliderThat = entityList.begin(); colliderThat != colliderThatEnd; ++colliderThat)
+			for (colliderThat = entityList.begin(); colliderThat != colliderThatEnd; ++colliderThat)	//checks bullets with fixed obj
 			{
 				/*if (colliderThat == colliderThis)
 					continue;*/
