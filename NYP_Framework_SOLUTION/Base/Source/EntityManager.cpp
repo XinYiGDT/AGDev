@@ -2,6 +2,7 @@
 #include "EntityBase.h"
 #include "Collider/Collider.h"
 #include "Laser.h"
+#include "SceneGraph.h"
 
 #include <iostream>
 using namespace std;
@@ -378,9 +379,9 @@ bool EntityManager::CheckForCollision(void)
 			// Dynamic cast it to a CLaser class
 			CLaser* thisEntity = dynamic_cast<CLaser*>(*colliderThis);
 
-			// Check for collision with another collider class
+			// Check for collision of laser with bullets
 			colliderThatEnd = projectileList.end();
-			for (colliderThat = projectileList.begin(); colliderThat != colliderThatEnd; ++colliderThat)	//checks laser with bullets
+			for (colliderThat = projectileList.begin(); colliderThat != colliderThatEnd; ++colliderThat)
 			{
 				if (colliderThat == colliderThis)
 					continue;
@@ -404,8 +405,8 @@ bool EntityManager::CheckForCollision(void)
 					}
 				}
 			}
-			colliderThatEnd = entityList.end();
-			for (colliderThat = entityList.begin(); colliderThat != colliderThatEnd; ++colliderThat)	//checks laser with fixed obj
+			colliderThatEnd = entityList.end(); //check for collision of laser with fixed obj
+			for (colliderThat = entityList.begin(); colliderThat != colliderThatEnd; ++colliderThat)
 			{
 				if ((*colliderThat)->HasCollider())
 				{
@@ -416,6 +417,17 @@ bool EntityManager::CheckForCollision(void)
 						{
 							thisEntity->SetIsDone(true);
 							thatEntity->SetIsDone(true);
+						}
+
+						//remove from scene graph
+						if (CSceneGraph::GetInstance()->DeleteNode((*colliderThis)) == true)
+						{
+							cout << "*** This Entity removed ***" << endl;
+						}
+						//remove from scene graph
+						if (CSceneGraph::GetInstance()->DeleteNode((*colliderThat)) == true)
+						{
+							cout << "*** That Entity removed ***" << endl;
 						}
 					}
 				}
@@ -442,6 +454,17 @@ bool EntityManager::CheckForCollision(void)
 						{
 							thisEntity->SetIsDone(true);
 							thatEntity->SetIsDone(true);
+						}
+
+						//remove from scene graph
+						if (CSceneGraph::GetInstance()->DeleteNode((*colliderThis)) == true)
+						{
+							cout << "*** This Entity removed ***" << endl;
+						}
+						//remove from scene graph
+						if (CSceneGraph::GetInstance()->DeleteNode((*colliderThat)) == true)
+						{
+							cout << "*** That Entity removed ***" << endl;
 						}
 					}
 				}
