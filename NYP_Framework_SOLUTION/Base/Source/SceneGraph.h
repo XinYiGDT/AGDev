@@ -5,6 +5,7 @@
 #include "Vector3.h"
 #include <string>
 #include "SceneNode.h"
+#include "GenericEntity.h"
 
 class Mesh;
 
@@ -36,6 +37,11 @@ public:
 	CSceneNode* GetNode(const int ID);
 	// Return the number of nodes in this Scene Graph
 	int GetNumOfNode(void);
+
+	//update
+	void Update(void);
+	//render
+	void Render(void);
 
 	// Generate an ID for a Scene Node
 	int GenerateID(void);

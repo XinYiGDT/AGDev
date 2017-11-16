@@ -18,6 +18,9 @@ void EntityManager::Update(double _dt)
 		(*it)->Update(_dt);
 	}
 
+	//Render the Scene Graph
+	CSceneGraph::GetInstance()->Update();
+
 	std::list<EntityBase*>::iterator it2, end2;	//projectile
 	end2 = projectileList.end();
 	for (it2 = projectileList.begin(); it2 != end2; ++it2)
@@ -83,6 +86,7 @@ void EntityManager::Update(double _dt)
 			++it3;
 		}
 	}
+
 }
 
 // Render all entities
@@ -96,12 +100,16 @@ void EntityManager::Render()
 		(*it)->Render();
 	}
 
+	//Render the Scene Graph
+	CSceneGraph::GetInstance()->Render();
+
 	std::list<EntityBase*>::iterator it2, end2;
 	end2 = projectileList.end();
 	for (it2 = projectileList.begin(); it2 != end2; ++it2)
 	{
 		(*it2)->Render();
 	}
+
 }
 
 // Render the UI entities

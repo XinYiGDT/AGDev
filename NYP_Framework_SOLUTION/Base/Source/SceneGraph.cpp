@@ -78,6 +78,18 @@ int CSceneGraph::GetNumOfNode(void)
 	return theRoot->GetNumOfChild();
 }
 
+void CSceneGraph::Update(void)
+{
+	//need add code here
+	theRoot->Update();
+}
+
+void CSceneGraph::Render(void)
+{
+	//need add code here
+	theRoot->Render();
+}
+
 int CSceneGraph::GenerateID(void)
 {
 	//return the ID and increment the value by 1
