@@ -4,6 +4,7 @@
 #include "SingletonTemplate.h"
 #include <list>
 #include "Vector3.h"
+#include "SpatialPartition_Grid\SpatialPartition.h"
 
 class EntityBase;
 
@@ -15,19 +16,15 @@ public:
 	void Render();
 	void RenderUI();
 
-	void AddEntity(EntityBase* _newEntity);
+	//void AddEntity(EntityBase* _newEntity);
+	void AddEntity(EntityBase* _newEntity, std::string type);
+	void AddEntity(EntityBase* _newEntity, bool bAddToSpatialPartition = false);
 	bool RemoveEntity(EntityBase* _existingEntity);
 
-	void AddEntity(EntityBase* _newEntity, std::string type);
-	bool RemoveEntity(EntityBase* _existingEntity, std::string type);
+	bool MarkForDeletion(EntityBase* _existingEntity);
+	void SetSpatialPartition(CSpatialPartition* theSpatialPartition);
 
-/*
-	void AddFixedEntity(EntityBase* _newEntity);
-	bool RemoveFixedEntity(EntityBase* _existingEntity);
-
-	void AddProjectileEntity(EntityBase* _newEntity);
-	bool RemoveProjectileEntity(EntityBase* _existingEntity);*/
-
+	
 
 private:
 	EntityManager();
@@ -51,6 +48,9 @@ private:
 	std::list<EntityBase*> entityList;
 	std::list<EntityBase*> mobileList;
 	std::list<EntityBase*> projectileList;
+
+	//handler to spatial partition
+	CSpatialPartition* theSpatialPartition;
 };
 
 #endif // ENTITY_MANAGER_H
