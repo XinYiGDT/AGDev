@@ -21,7 +21,7 @@ void EntityManager::Update(double _dt)
 	//Render the Scene Graph
 	CSceneGraph::GetInstance()->Update();
 
-	//Update the Spatial partition
+	//Render the Spatial partition
 	if (theSpatialPartition)
 		theSpatialPartition->Update();
 

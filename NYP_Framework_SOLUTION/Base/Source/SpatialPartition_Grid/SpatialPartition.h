@@ -3,6 +3,7 @@
 #include "Vector3.h"
 #include "Grid.h"
 #include "EntityBase.h"
+#include "../FPSCamera.h"
 
 class CSpatialPartition
 {
@@ -21,6 +22,11 @@ protected:
 	int zNumOfGrid;
 	float yOffset;
 	std::string _meshName; // Name of the mesh
+
+	//store the pointer to the camera to get it's position and direction to calculate LOD and visibility
+	FPSCamera* theCamera;
+	//LOD distances
+	float LevelOfDetails_Distances[2];
 
 public:
 	static CSpatialPartition *GetInstance()
@@ -89,4 +95,13 @@ public:
 
 	// The vector of objects due for migration to another grid
 	vector<EntityBase*> MigrationList;
+
+	//Handle Camera
+	void SetCamera(FPSCamera* _camera);
+	void RemoveCamera(void);
+
+	//Set LOD distances
+	void SetLevelOfDetails(const float distance_HighToMid, const float distance_MidToLow);
+	//Check if a CGrid is visible to the camera
+	bool isVisible(Vector3 theCameraPosition, Vector3 theCameraDirection, const int xIndex, const int zIndex);
 };

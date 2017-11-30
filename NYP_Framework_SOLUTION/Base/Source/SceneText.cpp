@@ -163,6 +163,8 @@ void SceneText::Init()
 	//set up the spatial partition and pass it to the entityManager to manage
 	CSpatialPartition::GetInstance()->Init(100, 100, 10, 10);
 	CSpatialPartition::GetInstance()->SetMesh("GRIDMESH");
+	CSpatialPartition::GetInstance()->SetCamera(&camera);
+	CSpatialPartition::GetInstance()->SetLevelOfDetails(5000.0f, 10000.0f);//sets the distance for lod 
 	EntityManager::GetInstance()->SetSpatialPartition(CSpatialPartition::GetInstance());
 
 
@@ -174,6 +176,8 @@ void SceneText::Init()
 	GenericEntity* aCube = Create::Entity("cube", Vector3(-20.0f, 0.0f, -20.0f));
 	aCube->SetCollider(true);
 	aCube->SetAABB(Vector3(0.5f, 0.5f, 0.5f), Vector3(-0.5f, -0.5f, -0.5f));
+	aCube->InitLOD("cube", "sphere", "cubeSG"); //high, mid, low
+
 	//add the pointer to this new entity to the scene graph
 	CSceneNode* theNode = CSceneGraph::GetInstance()->AddNode(aCube);
 	if (theNode == NULL)

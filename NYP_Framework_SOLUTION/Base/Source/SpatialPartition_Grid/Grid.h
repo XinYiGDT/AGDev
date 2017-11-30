@@ -3,6 +3,7 @@
 #include "EntityBase.h"
 #include "Vector3.h"
 #include <vector>
+#include "../LevelOfDetail/LevelOfDetails.h"
 using namespace std;
 
 //Include GLEW
@@ -27,6 +28,9 @@ protected:
 
 	// List of objects in this grid
 	vector<EntityBase*> ListOfObjects;
+
+	//the level of detail for this CGrid
+	CLevelOfDetails::DETAIL_LEVEL theDetailLevel;
 
 public:
 	// Constructor
@@ -64,4 +68,7 @@ public:
 
 	// PrintSelf
 	void PrintSelf();
+
+	//set the Level of Detail for objects in this CGrid
+	void SetDetailLevel(const CLevelOfDetails::DETAIL_LEVEL _theDetailLevel);
 };
