@@ -217,8 +217,10 @@ void SceneText::Init()
 	aRotateMtx->SetSteps(-120, 60);
 	grandChildNode->SetUpdateToTransformation(aRotateMtx);
 
-
-	
+	//Create a CEnemy instance
+	theEnemy = new CEnemy();
+	theEnemy->Init();
+	//theEnemy->SetPos(Vector3(-10.0f, 1.1f, -20.0f));
 
 
 	groundEntity = Create::Ground("GRASS_DARKGREEN", "GEO_GRASS_LIGHTGREEN");
@@ -234,6 +236,7 @@ void SceneText::Init()
 	groundEntity->SetScale(Vector3(100.0f, 100.0f, 100.0f));
 	groundEntity->SetGrids(Vector3(10.0f, 1.0f, 10.0f));
 	playerInfo->SetTerrain(groundEntity);
+	theEnemy->SetTerrain(groundEntity);
 
 	// Setup the 2D entities
 	float halfWindowWidth = Application::GetInstance().GetWindowWidth() / 2.0f;

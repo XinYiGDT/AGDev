@@ -343,6 +343,10 @@ bool CSpatialPartition::isVisible(	Vector3 theCameraPosition,
 {
 	float xDistance = (xGridSize*xIndex + (xGridSize >> 1) - (xSize >> 1)) - theCameraPosition.x;
 	float zDistance = (zGridSize*zIndex + (zGridSize >> 1) - (zSize >> 1)) - theCameraPosition.z;
+
+	if (xDistance*xDistance + zDistance*zDistance < (xGridSize*xGridSize + zGridSize*zGridSize))
+		return true;
+
 	Vector3 gridCentre(xDistance, 0, zDistance);
 	if (theCameraDirection.Dot(gridCentre) < 0)
 		return false;
