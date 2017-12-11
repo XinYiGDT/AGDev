@@ -134,7 +134,7 @@ void SceneText::Init()
 	MeshBuilder::GetInstance()->GetMesh("Chair")->textureID = LoadTGA("Image//chair.tga");
 	MeshBuilder::GetInstance()->GenerateRing("ring", Color(1, 0, 1), 36, 1, 0.5f);
 	MeshBuilder::GetInstance()->GenerateSphere("lightball", Color(1, 1, 1), 18, 36, 1.f);
-	MeshBuilder::GetInstance()->GenerateSphere("sphere", Color(1, 0, 0), 18, 36, 1.f);
+	MeshBuilder::GetInstance()->GenerateSphere("sphere", Color(1, 0, 0), 18, 36, 0.5f);
 	MeshBuilder::GetInstance()->GenerateCone("cone", Color(0.5f, 1, 0.3f), 36, 10.f, 10.f);
 	MeshBuilder::GetInstance()->GenerateCube("cube", Color(1.0f, 1.0f, 0.0f), 1.0f);
 	MeshBuilder::GetInstance()->GetMesh("cone")->material.kDiffuse.Set(0.99f, 0.99f, 0.99f);
@@ -158,6 +158,7 @@ void SceneText::Init()
 	MeshBuilder::GetInstance()->GetMesh("SKYBOX_BOTTOM")->textureID = LoadTGA("Image//SkyBox//skybox_bottom.tga");
 	MeshBuilder::GetInstance()->GenerateRay("laser", 10.0f);
 	MeshBuilder::GetInstance()->GenerateCube("cubeSG", Color(1.0f, 0.64f, 0.0f), 1.0f);
+	MeshBuilder::GetInstance()->GenerateCube("cubeHead", Color(1.0f, 0.8f, 0.0f), 1.0f);
 	MeshBuilder::GetInstance()->GenerateQuad("GRIDMESH", Color(1, 1, 1), 10.f);
 
 	//set up the spatial partition and pass it to the entityManager to manage
@@ -173,27 +174,7 @@ void SceneText::Init()
 	Create::Entity("lightball", Vector3(lights[0]->position.x, lights[0]->position.y, lights[0]->position.z)); // Lightball
 	
 	//-----week6 -  spatial partition
-	GenericEntity* aCube = Create::Entity("cube", Vector3(-20.0f, 0.0f, -20.0f));
-	aCube->SetCollider(true);
-	aCube->SetAABB(Vector3(0.5f, 0.5f, 0.5f), Vector3(-0.5f, -0.5f, -0.5f));
-	aCube->InitLOD("cube", "sphere", "cubeSG"); //high, mid, low
-
-	//add the pointer to this new entity to the scene graph
-	CSceneNode* theNode = CSceneGraph::GetInstance()->AddNode(aCube);
-	if (theNode == NULL)
-	{
-		cout << "EntityManager::AddEntity: Unable to add to scene graph!" << endl;
-	}
-
-	GenericEntity* anotherCube = Create::Entity("cube", Vector3(-20.0f, 1.1f, -20.0f));
-	anotherCube->SetCollider(true);
-	anotherCube->SetAABB(Vector3(0.5f, 0.5f, 0.5f), Vector3(-0.5f, -0.5f, -0.5f));
-	//add the pointer to this new entity to the scene graph
-	CSceneNode* anotherNode = theNode->AddChild(anotherCube);
-	if (anotherNode == NULL)
-	{
-		cout << "EntityManager::AddEntity: Unable to add to scene graph!" << endl;
-	}
+	enemyModel();
 
 	//------
 	//-----scene graph - week5
@@ -383,4 +364,49 @@ void SceneText::Exit()
 	// Delete the lights
 	delete lights[0];
 	delete lights[1];
+}
+
+void SceneText::enemyModel()
+{
+	GenericEntity* headCube = Create::Entity("cubeHead", Vector3(-20.0f, 5.0f, -20.0f), Vector3(2.0f, 2.0f, 2.0f));
+	headCube->SetCollider(true);
+	headCube->SetAABB(Vector3(2.f, 2.f, 1.f), Vector3(-2.f, -2.f, -2.f));
+	headCube->InitLOD("cubeHead", "sphere", "cubeSG"); //high, mid, low
+
+													   //add the pointer to this new entity to the scene graph
+	CSceneNode* theNode = CSceneGraph::GetInstance()->AddNode(headCube);
+	if (theNode == NULL)
+	{
+		cout << "EntityManager::AddEntity: Unable to add to scene graph!" << endl;
+	}
+
+	GenericEntity* bodyCube = Create::Entity("cube", Vector3(-20.0f, 1.1f, -20.0f), Vector3(3.0f, 6.0f, 3.0f));
+	bodyCube->SetCollider(true);
+	bodyCube->SetAABB(Vector3(3.0f, 6.f, 3.f), Vector3(-3.0f, -6.f, -3.0f));
+	//add the pointer to this new entity to the scene graph
+	CSceneNode* anotherNode = theNode->AddChild(bodyCube);
+	if (anotherNode == NULL)
+	{
+		cout << "EntityManager::AddEntity: Unable to add to scene graph!" << endl;
+	}
+
+	GenericEntity* leftArmCube = Create::Entity("cubeSG", Vector3(-22.0f, 1.8f, -20.0f), Vector3(1.0f, 4.0f, 2.0f));
+	leftArmCube->SetCollider(true);
+	leftArmCube->SetAABB(Vector3(1.f, 4.f, 2.f), Vector3(-1.f, -4.f, -2.f));
+	//add the pointer to this new entity to the scene graph
+	CSceneNode* leftArmNode = anotherNode->AddChild(leftArmCube);
+	if (leftArmNode == NULL)
+	{
+		cout << "EntityManager::AddEntity: Unable to add to scene graph!" << endl;
+	}
+
+	GenericEntity* rightArmCube = Create::Entity("cubeSG", Vector3(-18.0f, 1.8f, -20.0f), Vector3(1.0f, 4.0f, 2.0f));
+	rightArmCube->SetCollider(true);
+	rightArmCube->SetAABB(Vector3(1.0f, 4.0f, 2.0f), Vector3(-1.0f, -4.0f, -2.0f));
+	//add the pointer to this new entity to the scene graph
+	CSceneNode* rightArmNode = anotherNode->AddChild(rightArmCube);
+	if (rightArmNode == NULL)
+	{
+		cout << "EntityManager::AddEntity: Unable to add to scene graph!" << endl;
+	}
 }

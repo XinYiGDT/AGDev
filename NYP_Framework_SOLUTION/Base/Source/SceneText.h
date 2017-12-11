@@ -26,6 +26,8 @@ public:
 	virtual void Render();
 	virtual void Exit();
 
+	void enemyModel();
+
 private:
 	SceneText(SceneManager* _sceneMgr); // This is used to register to SceneManager
 
