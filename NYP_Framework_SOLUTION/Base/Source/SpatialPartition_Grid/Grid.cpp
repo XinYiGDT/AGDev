@@ -90,9 +90,10 @@ RenderScene
 ********************************************************************************/
 void CGrid::Render(void)
 {
-	if (theMesh)
+	if (theMesh && !ListOfObjects.empty())
 	{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		theMesh->material.kAmbient.Set(1, 0, 0);
 		RenderHelper::RenderMesh(theMesh);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
