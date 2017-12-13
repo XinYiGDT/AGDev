@@ -7,7 +7,7 @@ using namespace std;
 #include "EntityBase.h"
 #include "Transform.h"
 
-class CEnemy3D;
+class CEnemy;
 
 class CSceneNode: public CTransform
 {
@@ -15,9 +15,9 @@ public:
 	CSceneNode(void);
 	virtual ~CSceneNode();
 
-	CEnemy3D* theSource;
-	//setter
-	//getter
+	CEnemy* theSource;
+	void SetSource(CEnemy* _source);
+	CEnemy* GetSource(void);
 
 	//Release all memory for thsi node and its children
 	void Destroy(void);
