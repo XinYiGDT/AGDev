@@ -65,6 +65,7 @@ void CEnemy::Reset(void)
 CSceneNode * CEnemy::AddNode(EntityBase * theEntity)
 {
 	CSceneNode* aNewSceneNode = theRoot->AddChild(theEntity);
+	theRoot->SetSource(this);
 	return aNewSceneNode;
 }
 

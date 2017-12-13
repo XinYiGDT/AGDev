@@ -17,6 +17,17 @@ CSceneNode::~CSceneNode()
 {
 }
 
+void CSceneNode::SetSource(CEnemy * _source)
+{
+	theSource = _source;	
+}
+
+
+CEnemy * CSceneNode::GetSource(void)
+{
+	return theSource;
+}
+
 void CSceneNode::Destroy(void)
 {
 	//destroy children

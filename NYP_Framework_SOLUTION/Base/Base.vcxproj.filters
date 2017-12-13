@@ -37,6 +37,9 @@
     <Filter Include="Enemy">
       <UniqueIdentifier>{6292d54e-f844-41d9-b227-192f06bdd1d8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CameraEffect">
+      <UniqueIdentifier>{e259ba02-f0f9-494e-8174-491df434454c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp">
@@ -123,6 +126,9 @@
     <ClCompile Include="Source\Laser.cpp">
       <Filter>Projectile</Filter>
     </ClCompile>
+    <ClCompile Include="Source\CameraEffect\CameraEffects.cpp">
+      <Filter>CameraEffect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -205,6 +211,9 @@
     </ClInclude>
     <ClInclude Include="Source\Laser.h">
       <Filter>Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CameraEffect\CameraEffects.h">
+      <Filter>CameraEffect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

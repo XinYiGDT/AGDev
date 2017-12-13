@@ -164,6 +164,7 @@ void SceneText::Init()
 	MeshBuilder::GetInstance()->GenerateOBJ("house", "OBJ//house.obj");
 	MeshBuilder::GetInstance()->GetMesh("house")->textureID = LoadTGA("Image//chair.tga");
 
+
 	//set up the spatial partition and pass it to the entityManager to manage
 	CSpatialPartition::GetInstance()->Init(100, 100, 10, 10);
 	CSpatialPartition::GetInstance()->SetMesh("GRIDMESH");
@@ -220,6 +221,15 @@ void SceneText::Init()
 	groundEntity = Create::Ground("GRASS_DARKGREEN", "GEO_GRASS_LIGHTGREEN");
 //	Create::Text3DObject("text", Vector3(0.0f, 0.0f, 0.0f), "DM2210", Vector3(10.0f, 10.0f, 10.0f), Color(0, 1, 1));
 	Create::Sprite2DObject("crosshair", Vector3(0.0f, 0.0f, 0.0f), Vector3(10.0f, 10.0f, 10.0f));
+
+	//CameraEffects
+	cameraEffects = Create::CameraEffects(true);
+	cameraEffects->SetPistolScreen(MeshBuilder::GetInstance()->GenerateQuad("pistol", Color(1, 1, 1), 1.0f));
+	cameraEffects->GetPistolScreen()->textureID = LoadTGA("Image//pistol.tga");
+	cameraEffects->SetSMGScreen(MeshBuilder::GetInstance()->GenerateQuad("smg", Color(1, 1, 1), 1.0f));
+	cameraEffects->GetSMGScreen()->textureID = LoadTGA("Image//smg.tga");
+	cameraEffects->SetStatus_PistolScreen(true);
+	cameraEffects->SetStatus_SMGScreen(false);
 
 	SkyBoxEntity* theSkyBox = Create::SkyBox("SKYBOX_FRONT", "SKYBOX_BACK",
 											 "SKYBOX_LEFT", "SKYBOX_RIGHT",
