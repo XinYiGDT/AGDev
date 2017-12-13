@@ -3,8 +3,8 @@
 #include "SceneGraph.h"
 #include <algorithm>
 
-#include "SceneGraph.h"
 #include "GraphicsManager.h"
+#include "Enemy\Enemy.h"
 
 CSceneNode::CSceneNode(void)
 	: ID(-1)
@@ -79,7 +79,7 @@ CSceneNode * CSceneNode::AddChild(EntityBase * theEntity)
 		aNewNode->SetEntity(theEntity);
 		//set the parent for the new node
 		aNewNode->SetParent(this);
-		aNewNode->SetID(CSceneGraph::GetInstance()->GenerateID());  //<---scene graph missing
+		aNewNode->SetID(CSceneGraph::GetInstance()->GenerateID()); 
 		//add the new node into the vector
 		this->theChildren.push_back(aNewNode);
 		//return this new node

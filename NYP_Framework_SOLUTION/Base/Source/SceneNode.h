@@ -7,11 +7,17 @@ using namespace std;
 #include "EntityBase.h"
 #include "Transform.h"
 
+class CEnemy3D;
+
 class CSceneNode: public CTransform
 {
 public:
 	CSceneNode(void);
 	virtual ~CSceneNode();
+
+	CEnemy3D* theSource;
+	//setter
+	//getter
 
 	//Release all memory for thsi node and its children
 	void Destroy(void);

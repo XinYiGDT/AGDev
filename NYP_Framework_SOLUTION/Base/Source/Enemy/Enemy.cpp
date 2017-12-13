@@ -13,7 +13,11 @@ CEnemy::CEnemy()
 	, maxBoundary(Vector3(0.0f, 0.0f, 0.0f))
 	, minBoundary(Vector3(0.0f, 0.0f, 0.0f))
 	, m_pTerrain(NULL)
+	, ID(0)
+	, theRoot(NULL)
 {
+	theRoot = new CSceneNode();
+	theRoot->SetID(this->GenerateID());
 }
 
 CEnemy::~CEnemy()
@@ -56,6 +60,22 @@ void CEnemy::Reset(void)
 	position = defaultPosition;
 	target = defaultTarget;
 	up = defaultUp;
+}
+
+CSceneNode * CEnemy::AddNode(EntityBase * theEntity)
+{
+	CSceneNode* aNewSceneNode = theRoot->AddChild(theEntity);
+	return aNewSceneNode;
+}
+
+bool CEnemy::DeleteNode(EntityBase * theEntity)
+{
+	return theRoot->DeleteChild(theEntity);
+}
+
+int CEnemy::GenerateID(void)
+{
+	return ID++;
 }
 
 void CEnemy::SetPos(const Vector3 & _pos)
@@ -123,6 +143,8 @@ void CEnemy::Update(double dt)
 		target.z = position.z * -1;
 	else if (position.z < -400.f)
 		target.z = position.z * -1;
+
+	theRoot->Update();
 }
 
 void CEnemy::Constrain(void)
@@ -158,11 +180,7 @@ void CEnemy::Render(void)
 			//cout << theDetailLevel << endl;
 			RenderHelper::RenderMesh(GetLODMesh());
 		}
-		else
-		{
-			int a = 0;
-		}
-
 	}
 	modelStack.PopMatrix();
+	theRoot->Render();
 }

@@ -1,7 +1,7 @@
 #pragma once
 #include "../GenericEntity.h"
 #include "../GroundEntity.h"
-#include "../SceneNode.h"
+
 #include "../SceneGraph.h"
 
 class Mesh;
@@ -15,6 +15,18 @@ public:
 	void Init(void);
 	//Reset this player instance to default
 	void Reset(void);
+
+
+	//Scene graph
+	// Add a Node to this Scene Graph
+	CSceneNode* AddNode(EntityBase* theEntity = NULL);
+	// Delete a Node from this Scene Graph using the pointer to the node
+	bool DeleteNode(EntityBase* theEntity);
+	// Generate an ID for a Scene Node
+	int GenerateID(void);
+
+	CSceneNode* theRoot;
+
 
 	//set position
 	void SetPos(const Vector3& _pos);
@@ -55,4 +67,5 @@ protected:
 
 	double m_dSpeed;
 	double m_dAcceleration;
+	int ID;
 };
