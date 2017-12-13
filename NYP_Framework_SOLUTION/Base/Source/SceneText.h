@@ -39,7 +39,12 @@ private:
 	Light* lights[2];
 
 	GenericEntity* theCube;
-	CEnemy* theEnemy;
+	//vector<CEnemy*> theEnemyList;
+	CEnemy* theEnemy[50];
+
+	int enemiesCount;
+
+	Vector3 MovePosition,target;
 
 	static SceneText* sInstance; // The pointer to the object that gets registered
 };

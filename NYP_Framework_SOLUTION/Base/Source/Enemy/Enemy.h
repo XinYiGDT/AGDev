@@ -1,6 +1,8 @@
 #pragma once
 #include "../GenericEntity.h"
 #include "../GroundEntity.h"
+#include "../SceneNode.h"
+#include "../SceneGraph.h"
 
 class Mesh;
 
@@ -41,11 +43,15 @@ public:
 	void Constrain(void);
 	//render
 	void Render(void);
+
+	void enemyModel();
+
 protected:
 	Vector3 defaultPosition, defaultTarget, defaultUp;
 	Vector3 target, up;
 	Vector3 maxBoundary, minBoundary;
 	GroundEntity* m_pTerrain;
+	int i = 0;
 
 	double m_dSpeed;
 	double m_dAcceleration;
