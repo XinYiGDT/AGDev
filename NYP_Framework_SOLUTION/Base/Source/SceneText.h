@@ -10,6 +10,7 @@
 #include "MatrixStack.h"
 #include "GenericEntity.h"
 #include "Enemy\Enemy.h"
+#include "CameraEffect\CameraEffects.h"
 
 class ShaderProgram;
 class SceneManager;
@@ -37,6 +38,7 @@ private:
 	FPSCamera camera;
 	TextEntity* textObj[3];
 	Light* lights[2];
+	CCameraEffects* cameraEffects;
 
 	GenericEntity* theCube;
 	//vector<CEnemy*> theEnemyList;
