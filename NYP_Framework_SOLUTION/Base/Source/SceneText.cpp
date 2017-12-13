@@ -161,8 +161,8 @@ void SceneText::Init()
 	MeshBuilder::GetInstance()->GenerateQuad("GRIDMESH", Color(1, 1, 1), 1.f);
 	MeshBuilder::GetInstance()->GenerateCube("cubeHead", Color(1.0f, 0.8f, 0.0f), 1.0f);
 
-	/*MeshBuilder::GetInstance()->GenerateOBJ("Chair", "OBJ//chair.obj");
-	MeshBuilder::GetInstance()->GetMesh("Chair")->textureID = LoadTGA("Image//chair.tga");*/
+	MeshBuilder::GetInstance()->GenerateOBJ("house", "OBJ//house.obj");
+	MeshBuilder::GetInstance()->GetMesh("house")->textureID = LoadTGA("Image//chair.tga");
 
 	//set up the spatial partition and pass it to the entityManager to manage
 	CSpatialPartition::GetInstance()->Init(100, 100, 10, 10);
@@ -182,7 +182,11 @@ void SceneText::Init()
 		
 	}*/
 
-	
+	Create::Entity("house", Vector3(0, -10.f, -200.f), Vector3(0.09f,0.09f,0.09f));
+	Create::Entity("house", Vector3(300.f, -10.f, -200.f), Vector3(0.09f, 0.09f, 0.09f));
+	Create::Entity("house", Vector3(-300.f, -10.f, -200.f), Vector3(0.09f, 0.09f, 0.09f));
+	Create::Entity("house", Vector3(300.f, -10.f, 200.f), Vector3(0.09f, 0.09f, 0.09f));
+	Create::Entity("house", Vector3(-300.f, -10.f, 200.f), Vector3(0.09f, 0.09f, 0.09f));
 	//------
 	//-----scene graph - week5
 	/*GenericEntity* baseCube = Create::Asset("cube", Vector3(0.0f, 0.0f, 0.0f));
@@ -419,6 +423,11 @@ void SceneText::enemyModel()
 	//{
 	//	cout << "EntityManager::AddEntity: Unable to add to scene graph!" << endl;
 	//}
+}
+
+void SceneText::enemy2Model()
+{
+
 }
 
 void SceneText::Exit()

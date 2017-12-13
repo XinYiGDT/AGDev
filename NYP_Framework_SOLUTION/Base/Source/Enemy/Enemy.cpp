@@ -139,9 +139,9 @@ void CEnemy::Update(double dt)
 	Constrain();
 
 	//update the target
-	if (position.z > 400.f)
+	if (position.z > 300.f)
 		target.z = position.z * -1;
-	else if (position.z < -400.f)
+	else if (position.z < -300.f)
 		target.z = position.z * -1;
 
 	theRoot->Update();

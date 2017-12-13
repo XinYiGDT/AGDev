@@ -28,6 +28,8 @@ public:
 
 	void enemyModel();
 
+	void enemy2Model();
+
 private:
 	SceneText(SceneManager* _sceneMgr); // This is used to register to SceneManager
 
