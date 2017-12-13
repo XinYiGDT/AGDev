@@ -33,6 +33,7 @@ void CEnemy::Init(void)
 
 	//set the current values
 	position.Set(10.0f, 0.0f, 0.0f);
+	scale.Set(5.f, 5.f, 5.f);
 	target.Set(10.0f, 0.0f, 450.0f);
 	up.Set(0.0f, 1.0f, 0.0f);
 
