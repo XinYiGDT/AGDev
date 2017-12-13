@@ -170,15 +170,15 @@ void SceneText::Init()
 
 
 	// Create entities into the scene
-	Create::Entity("reference", Vector3(0.0f, 0.0f, 0.0f)); // Reference
-	Create::Entity("lightball", Vector3(lights[0]->position.x, lights[0]->position.y, lights[0]->position.z)); // Lightball
+	//Create::Entity("reference", Vector3(0.0f, 0.0f, 0.0f)); // Reference
+	//Create::Entity("lightball", Vector3(lights[0]->position.x, lights[0]->position.y, lights[0]->position.z)); // Lightball
 	
 	//-----week6 -  spatial partition
 	enemyModel();
 
 	//------
 	//-----scene graph - week5
-	GenericEntity* baseCube = Create::Asset("cube", Vector3(0.0f, 0.0f, 0.0f));
+	/*GenericEntity* baseCube = Create::Asset("cube", Vector3(0.0f, 0.0f, 0.0f));
 	CSceneNode* baseNode = CSceneGraph::GetInstance()->AddNode(baseCube);
 
 	CUpdateTransformation* baseMtx = new CUpdateTransformation();
@@ -196,7 +196,7 @@ void SceneText::Init()
 	CUpdateTransformation* aRotateMtx = new CUpdateTransformation();
 	aRotateMtx->ApplyUpdate(1.0f, 0.0f, 0.0f, 1.0f);
 	aRotateMtx->SetSteps(-120, 60);
-	grandChildNode->SetUpdateToTransformation(aRotateMtx);
+	grandChildNode->SetUpdateToTransformation(aRotateMtx);*/
 
 	//Create a CEnemy instance
 	theEnemy = new CEnemy();

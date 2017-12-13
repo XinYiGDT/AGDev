@@ -27,9 +27,9 @@ bool CLevelOfDetails::InitLOD(const std::string & _meshName_High
 	modelMesh_LowDetails = MeshBuilder::GetInstance()->GetMesh(_meshName_Low);
 
 	//if any of the mesh is not loaded, then return false and avoid setting the LOD to active
-	if (modelMesh_HighDetails == nullptr ||
-		modelMesh_MidDetails == nullptr ||
-		modelMesh_LowDetails == nullptr)
+	if ((modelMesh_HighDetails == nullptr) ||
+		(modelMesh_MidDetails == nullptr) ||
+		(modelMesh_LowDetails == nullptr))
 	{
 		return false;
 	}

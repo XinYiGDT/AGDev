@@ -69,8 +69,8 @@ void CGrid::Update(vector<EntityBase*>* migrationList)
 	while (it != ListOfObjects.end())
 	{
 		Vector3 position = (*it)->GetPosition();
-		if (((min.x < position.x) && (position.x >= max.x)) &&
-			((min.z < position.z) && (position.z >= max.z)))
+		if (((position.x < min.x) || (position.x >= max.x / 2)) ||
+			((position.z < min.z) || (position.z >= max.z / 2)))
 		{
 			migrationList->push_back(*it);
 
@@ -93,7 +93,7 @@ void CGrid::Render(void)
 	if (theMesh && !ListOfObjects.empty())
 	{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		theMesh->material.kAmbient.Set(1, 0, 0);
+		//theMesh->material.kAmbient.Set(1, 0, 0);
 		RenderHelper::RenderMesh(theMesh);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
