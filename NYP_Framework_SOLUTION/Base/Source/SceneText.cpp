@@ -345,10 +345,10 @@ void SceneText::Update(double dt)
 	{
 		cout << "Mouse Wheel has offset in X-axis of " << MouseController::GetInstance()->GetMouseScrollStatus(MouseController::SCROLL_TYPE_XOFFSET) << endl;
 	}
-	if (MouseController::GetInstance()->GetMouseScrollStatus(MouseController::SCROLL_TYPE_YOFFSET) != 0.0)
+	/*if (MouseController::GetInstance()->GetMouseScrollStatus(MouseController::SCROLL_TYPE_YOFFSET) != 0.0)
 	{
 		cout << "Mouse Wheel has offset in Y-axis of " << MouseController::GetInstance()->GetMouseScrollStatus(MouseController::SCROLL_TYPE_YOFFSET) << endl;
-	}
+	}*/
 	// <THERE>
 
 	// Update the player position and other details based on keyboard and mouse inputs
@@ -371,7 +371,16 @@ void SceneText::Update(double dt)
 	ss1 << "Player:" << playerInfo->GetPos();
 	textObj[2]->SetText(ss1.str());
 
-	
+	if (playerInfo->m_iCurrentWeapon == 0)
+	{
+		cameraEffects->SetStatus_PistolScreen(true);
+		cameraEffects->SetStatus_SMGScreen(false);
+	}
+	else if (playerInfo->m_iCurrentWeapon == 1)
+	{
+		cameraEffects->SetStatus_PistolScreen(false);
+		cameraEffects->SetStatus_SMGScreen(true);
+	}
 }
 
 void SceneText::Render()
@@ -424,6 +433,7 @@ void SceneText::enemyModel()
 	bodyCube->SetAABB(Vector3(1.5f, 3.f, 1.5f), Vector3(-1.5f, -3.f, -1.5f));
 	//add the pointer to this new entity to the scene graph
 	CSceneNode* anotherNode = theNode->AddChild(bodyCube);
+	anotherNode->SetSource(theEnemy);
 	if (anotherNode == NULL)
 	{
 		cout << "EntityManager::AddEntity: Unable to add to scene graph!" << endl;

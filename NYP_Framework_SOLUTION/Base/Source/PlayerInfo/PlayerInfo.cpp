@@ -26,11 +26,22 @@ CPlayerInfo::CPlayerInfo(void)
 	, m_pTerrain(NULL)
 	, primaryWeapon(NULL)
 	, secondaryWeapon(NULL)
+	, weaponManager(NULL)
+	, m_iCurrentWeapon(0)
 {
 }
 
 CPlayerInfo::~CPlayerInfo(void)
 {
+	if (weaponManager)
+	{
+		for (int i = 0; i < m_iNumOfWeapon; i++)
+		{
+			delete weaponManager[i];
+		}
+		delete[] weaponManager;
+		weaponManager = NULL;
+	}
 	if (secondaryWeapon)
 	{
 		delete secondaryWeapon;
@@ -60,6 +71,12 @@ void CPlayerInfo::Init(void)
 	// Set Boundary
 	maxBoundary.Set(1,1,1);
 	minBoundary.Set(-1, -1, -1);
+
+	weaponManager = new CWeaponInfo*[m_iNumOfWeapon];
+	weaponManager[0] = new CLaserBlaster();
+	weaponManager[0]->Init();
+	weaponManager[1] = new CPistol();
+	weaponManager[1]->Init();
 
 	// Set the pistol as the primary weapon
 	primaryWeapon = new CLaserBlaster();
@@ -415,34 +432,49 @@ void CPlayerInfo::Update(double dt)
 	// Update the weapons
 	if (KeyboardController::GetInstance()->IsKeyReleased('R'))
 	{
-		if (primaryWeapon)
+
+		if (weaponManager[m_iCurrentWeapon])
 		{
-			primaryWeapon->Reload();
-			//primaryWeapon->PrintSelf();
+			weaponManager[m_iCurrentWeapon]->Reload();
 		}
+		//if (primaryWeapon)
+		//{
+		//	primaryWeapon->Reload();
+		//	//primaryWeapon->PrintSelf();
+		//}
 
 		if (secondaryWeapon)
 		{
 			secondaryWeapon->Reload();
-			//primaryWeapon->PrintSelf();
+			//secondaryWeapon->PrintSelf();
 		}
 	}
-	if (primaryWeapon)
-		primaryWeapon->Update(dt);
+	if (weaponManager[m_iCurrentWeapon])
+		weaponManager[m_iCurrentWeapon]->Update(dt);
 	if (secondaryWeapon)
 		secondaryWeapon->Update(dt);
 
 	// if Mouse Buttons were activated, then act on them
 	if (MouseController::GetInstance()->IsButtonPressed(MouseController::LMB))
 	{
-		if (primaryWeapon)
-			primaryWeapon->Discharge(position, target, this);
+		if (weaponManager[m_iCurrentWeapon])
+			weaponManager[m_iCurrentWeapon]->Discharge(position, target, this);
 
 	}
 	else if (MouseController::GetInstance()->IsButtonPressed(MouseController::RMB))
 	{
 		if (secondaryWeapon)
 			secondaryWeapon->Discharge(position, target, this);
+	}
+
+	if (MouseController::GetInstance()->GetMouseScrollStatus(MouseController::SCROLL_TYPE_YOFFSET) != m_iCurrentWeapon)
+	{
+		if ((MouseController::GetInstance()->GetMouseScrollStatus(MouseController::SCROLL_TYPE_YOFFSET) >= 0) &&
+			(MouseController::GetInstance()->GetMouseScrollStatus(MouseController::SCROLL_TYPE_YOFFSET) < m_iNumOfWeapon))
+		{
+			m_iCurrentWeapon = MouseController::GetInstance()->GetMouseScrollStatus(MouseController::SCROLL_TYPE_YOFFSET);
+			std::cout << "Mouse Wheel has offset in Y-axis of " << MouseController::GetInstance()->GetMouseScrollStatus(MouseController::SCROLL_TYPE_YOFFSET) << std::endl;
+		}
 	}
 
 	// If the user presses R key, then reset the view to default values
