@@ -1,5 +1,5 @@
 #pragma once
-#include "Projectile/Projectile.h"
+#include "Projectile\Projectile.h"
 #include "EntityBase.h"
 #include "Vector3.h"
 #include "Collider/Collider.h"
@@ -19,9 +19,9 @@ public:
 	void CalculateAngles(void);
 
 	// Update the status of this projectile
-	void Update(double dt = 0.0333f);
+	virtual void Update(double dt = 0.0333f);
 	// Render this projectile
-	void Render(void);
+	virtual void Render(void);
 private:
 	float m_fLength;
 	float angle_x, angle_y, angle_z;
@@ -29,12 +29,12 @@ private:
 
 namespace Create
 {
-	CLaser* Laser(const std::string& _meshName, 
-					const Vector3& _position, 
-					const Vector3& _direction, 
-					const float m_fLength, 
-					const float m_fLifetime, 
-					const float m_fSpeed,
-					CPlayerInfo* _source=NULL);
+	CLaser* Laser(const std::string& _meshName,
+		const Vector3& _position,
+		const Vector3& _direction,
+		const float m_fLength,
+		const float m_fLifetime,
+		const float m_fSpeed,
+		CPlayerInfo* _source = NULL);
 };
 

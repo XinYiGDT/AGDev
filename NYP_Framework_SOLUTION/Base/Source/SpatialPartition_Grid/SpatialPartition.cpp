@@ -16,8 +16,8 @@ template <typename T> vector<T> concat(vector<T> &a, vector<T> &b) {
 CSpatialPartition *CSpatialPartition::sp_instance = 0;
 
 /********************************************************************************
- Constructor
- ********************************************************************************/
+Constructor
+********************************************************************************/
 CSpatialPartition::CSpatialPartition(void)
 	: theGrid(NULL)
 	, xSize(0)
@@ -33,20 +33,20 @@ CSpatialPartition::CSpatialPartition(void)
 }
 
 /********************************************************************************
- Destructor
- ********************************************************************************/
+Destructor
+********************************************************************************/
 CSpatialPartition::~CSpatialPartition(void)
 {
-	delete [] theGrid;
 	theCamera = NULL;
+	delete[] theGrid;
 }
 
 /********************************************************************************
- Initialise the spatial partition
- ********************************************************************************/
-bool CSpatialPartition::Init(	const int xGridSize, const int zGridSize, 
-								const int xNumOfGrid, const int zNumOfGrid, 
-								const float yOffset)
+Initialise the spatial partition
+********************************************************************************/
+bool CSpatialPartition::Init(const int xGridSize, const int zGridSize,
+	const int xNumOfGrid, const int zNumOfGrid,
+	const float yOffset)
 {
 	if ((xGridSize>0) && (zGridSize>0)
 		&& (xNumOfGrid>0) && (zNumOfGrid>0))
@@ -60,12 +60,12 @@ bool CSpatialPartition::Init(	const int xGridSize, const int zGridSize,
 		this->yOffset = yOffset;
 
 		// Create an array of grids
-		theGrid = new CGrid[ xNumOfGrid*zNumOfGrid ];
+		theGrid = new CGrid[xNumOfGrid*zNumOfGrid];
 
 		// Initialise the array of grids
-		for (int i=0; i<xNumOfGrid; i++)
+		for (int i = 0; i<xNumOfGrid; i++)
 		{
-			for (int j=0; j<zNumOfGrid; j++)
+			for (int j = 0; j<zNumOfGrid; j++)
 			{
 				theGrid[i*zNumOfGrid + j].Init(i, j, xGridSize, zGridSize, (xSize >> 1), (zSize >> 1));
 			}
@@ -83,8 +83,8 @@ bool CSpatialPartition::Init(	const int xGridSize, const int zGridSize,
 }
 
 /********************************************************************************
- Set a particular grid's Mesh
- ********************************************************************************/
+Set a particular grid's Mesh
+********************************************************************************/
 void CSpatialPartition::SetMesh(const std::string& _meshName)
 {
 	this->_meshName = _meshName;
@@ -94,8 +94,8 @@ void CSpatialPartition::SetMesh(const std::string& _meshName)
 }
 
 /********************************************************************************
-  ApplyMesh
- ********************************************************************************/
+ApplyMesh
+********************************************************************************/
 void CSpatialPartition::ApplyMesh(void)
 {
 	if (_meshName.size() != 0)
@@ -121,18 +121,18 @@ void CSpatialPartition::Update(void)
 		{
 			theGrid[i*zNumOfGrid + j].Update(&MigrationList);
 
-			//Check visibility
-			if (isVisible(	theCamera->GetCameraPos(),
-							theCamera->GetCameraTarget() - theCamera->GetCameraPos(),
-							i, j) == true)
+			// Check visibility
+			if (IsVisible(theCamera->GetCameraPos(),
+				theCamera->GetCameraTarget() - theCamera->GetCameraPos(),
+				i, j) == true)
 			{
-				//calculate LOD for this CGrid
+				// Calculate LOD for this CGrid
 				float distance = CalculateDistanceSquare(&(theCamera->GetCameraPos()), i, j);
-				if (distance < LevelOfDetails_Distances[0]) //high to mid
+				if (distance < LevelOfDetails_Distances[0])
 				{
 					theGrid[i*zNumOfGrid + j].SetDetailLevel(CLevelOfDetails::HIGH_DETAILS);
 				}
-				else if (distance < LevelOfDetails_Distances[1]) //mid to low
+				else if (distance < LevelOfDetails_Distances[1])
 				{
 					theGrid[i*zNumOfGrid + j].SetDetailLevel(CLevelOfDetails::MID_DETAILS);
 				}
@@ -141,10 +141,8 @@ void CSpatialPartition::Update(void)
 					theGrid[i*zNumOfGrid + j].SetDetailLevel(CLevelOfDetails::LOW_DETAILS);
 				}
 			}
-			else //not visible to camera, set objs in CGrid to NO_DETAILS
-			{
+			else
 				theGrid[i*zNumOfGrid + j].SetDetailLevel(CLevelOfDetails::NO_DETAILS);
-			}
 		}
 	}
 
@@ -176,7 +174,7 @@ void CSpatialPartition::Render(Vector3* theCameraPosition)
 		for (int j = 0; j<zNumOfGrid; j++)
 		{
 			modelStack.PushMatrix();
-			modelStack.Translate(xGridSize*i - (xSize >> 1) + xGridSize * .5f, 0.0f, zGridSize*j - (zSize >> 1) + zGridSize * .5f);
+			modelStack.Translate(xGridSize*i - (xSize >> 1) + xGridSize *0.5f, 0.0f, zGridSize*j - (zSize >> 1) + zGridSize *0.5f);
 			modelStack.PushMatrix();
 			modelStack.Scale(xGridSize, 1.0f, zGridSize);
 			modelStack.Rotate(-90, 1, 0, 0);
@@ -190,28 +188,28 @@ void CSpatialPartition::Render(Vector3* theCameraPosition)
 }
 
 /********************************************************************************
- Get xSize of the entire spatial partition
+Get xSize of the entire spatial partition
 ********************************************************************************/
 int CSpatialPartition::GetxSize(void) const
 {
 	return xSize;
 }
 /********************************************************************************
- Get zSize of the entire spatial partition
+Get zSize of the entire spatial partition
 ********************************************************************************/
 int CSpatialPartition::GetzSize(void) const
 {
 	return zSize;
 }
 /********************************************************************************
- Get xSize
+Get xSize
 ********************************************************************************/
 int CSpatialPartition::GetxGridSize(void) const
 {
 	return xGridSize;
 }
 /********************************************************************************
- Get zNumOfGrid
+Get zNumOfGrid
 ********************************************************************************/
 int CSpatialPartition::GetzGridSize(void) const
 {
@@ -233,28 +231,32 @@ int CSpatialPartition::GetzNumOfGrid(void) const
 }
 
 /********************************************************************************
- Get a particular grid
- ********************************************************************************/
+Get a particular grid
+********************************************************************************/
 CGrid CSpatialPartition::GetGrid(const int xIndex, const int yIndex) const
 {
-	return theGrid[ xIndex*zNumOfGrid + yIndex ];
+	return theGrid[xIndex*zNumOfGrid + yIndex];
 }
 
 /********************************************************************************
- Get vector of objects from this Spatial Partition
- ********************************************************************************/
+Get vector of objects from this Spatial Partition
+********************************************************************************/
 vector<EntityBase*> CSpatialPartition::GetObjects(Vector3 position, const float radius)
 {
 	// Get the indices of the object's position
 	int xIndex = (((int)position.x - (-xSize >> 1)) / (xSize / xNumOfGrid));
 	int zIndex = (((int)position.z - (-zSize >> 1)) / (zSize / zNumOfGrid));
 
+	//	int temp = (int)position.x + (int)position.z * 100;
+	//theGrid[xIndex*zNumOfGrid + zIndex].SetMesh("GRIDMESH2");
+	//theGrid[xIndex*zNumOfGrid + zIndex].SetMesh("GRIDMESH2");
+
 	return theGrid[xIndex*zNumOfGrid + zIndex].GetListOfObject();
 }
 
 /********************************************************************************
- Add a new object model
- ********************************************************************************/
+Add a new object model
+********************************************************************************/
 void CSpatialPartition::Add(EntityBase* theObject)
 {
 	// Get the indices of the object's position
@@ -271,7 +273,7 @@ void CSpatialPartition::Add(EntityBase* theObject)
 // Remove but not delete object from this grid
 void CSpatialPartition::Remove(EntityBase* theObject)
 {
-	/*
+
 	// Get the indices of the object's position
 	int xIndex = (((int)theObject->GetPosition().x - (-xSize >> 1)) / (xSize / xNumOfGrid));
 	int zIndex = (((int)theObject->GetPosition().z - (-zSize >> 1)) / (zSize / zNumOfGrid));
@@ -281,24 +283,24 @@ void CSpatialPartition::Remove(EntityBase* theObject)
 	{
 		theGrid[xIndex*zNumOfGrid + zIndex].Remove(theObject);
 	}
-	*/
+
 }
 
 /********************************************************************************
- Calculate the squared distance from camera to a grid's centrepoint
- ********************************************************************************/
+Calculate the squared distance from camera to a grid's centrepoint
+********************************************************************************/
 float CSpatialPartition::CalculateDistanceSquare(Vector3* theCameraPosition, const int xIndex, const int zIndex)
 {
 	float xDistance = (xGridSize*xIndex + (xGridSize >> 1) - (xSize >> 1)) - theCameraPosition->x;
-	float zDistance = (zGridSize*zIndex + (xGridSize >> 1) - (zSize >> 1)) - theCameraPosition->z;
+	float zDistance = (zGridSize*zIndex + (zGridSize >> 1) - (zSize >> 1)) - theCameraPosition->z;
 
-	return (float) ( xDistance*xDistance + zDistance*zDistance );
+	return (float)(xDistance*xDistance + zDistance*zDistance);
 }
 
 
 /********************************************************************************
- PrintSelf
- ********************************************************************************/
+PrintSelf
+********************************************************************************/
 void CSpatialPartition::PrintSelf() const
 {
 	cout << "******* Start of CSpatialPartition::PrintSelf() **********************************" << endl;
@@ -308,11 +310,11 @@ void CSpatialPartition::PrintSelf() const
 	{
 		cout << "theGrid : OK" << endl;
 		cout << "Printing out theGrid below: " << endl;
-		for (int i=0; i<xNumOfGrid; i++)
+		for (int i = 0; i<xNumOfGrid; i++)
 		{
-			for (int j=0; j<zNumOfGrid; j++)
+			for (int j = 0; j<zNumOfGrid; j++)
 			{
-				theGrid[ i*zNumOfGrid + j ].PrintSelf();
+				theGrid[i*zNumOfGrid + j].PrintSelf();
 			}
 		}
 	}
@@ -321,9 +323,9 @@ void CSpatialPartition::PrintSelf() const
 	cout << "******* End of CSpatialPartition::PrintSelf() **********************************" << endl;
 }
 
-void CSpatialPartition::SetCamera(FPSCamera * _camera)
+void CSpatialPartition::SetCamera(FPSCamera * _cameraPtr)
 {
-	theCamera = _camera;
+	theCamera = _cameraPtr;
 }
 
 void CSpatialPartition::RemoveCamera(void)
@@ -331,24 +333,25 @@ void CSpatialPartition::RemoveCamera(void)
 	theCamera = NULL;
 }
 
-void CSpatialPartition::SetLevelOfDetails(const float distance_HighToMid, const float distance_MidToLow)
+void CSpatialPartition::SetLevelOfDetails(const float distance_High2Mid, const float distance_Mid2Low)
 {
-	LevelOfDetails_Distances[0] = distance_HighToMid;
-	LevelOfDetails_Distances[1] = distance_MidToLow;
+	LevelOfDetails_Distances[0] = distance_High2Mid;
+	LevelOfDetails_Distances[1] = distance_Mid2Low;
 }
 
-bool CSpatialPartition::isVisible(	Vector3 theCameraPosition, 
-									Vector3 theCameraDirection, 
-									const int xIndex, const int zIndex)
+bool CSpatialPartition::IsVisible(Vector3 theCameraPosition,
+	Vector3 theCameraDirection,
+	const int xIndex, const int zIndex)
 {
 	float xDistance = (xGridSize*xIndex + (xGridSize >> 1) - (xSize >> 1)) - theCameraPosition.x;
 	float zDistance = (zGridSize*zIndex + (zGridSize >> 1) - (zSize >> 1)) - theCameraPosition.z;
-
+	//if the Camera is within the CGrid, then display by default
+	//Otherwise, the entity may not get Displayed.
 	if (xDistance*xDistance + zDistance*zDistance < (xGridSize*xGridSize + zGridSize*zGridSize))
 		return true;
 
-	Vector3 gridCentre(xDistance, 0, zDistance);
-	if (theCameraDirection.Dot(gridCentre) < 0)
+	Vector3 gridCenter(xDistance, 0, zDistance);
+	if (theCameraDirection.Dot(gridCenter) < 0)
 		return false;
 
 	return true;

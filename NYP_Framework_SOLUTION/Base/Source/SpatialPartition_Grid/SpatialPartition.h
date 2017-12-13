@@ -103,5 +103,5 @@ public:
 	//Set LOD distances
 	void SetLevelOfDetails(const float distance_HighToMid, const float distance_MidToLow);
 	//Check if a CGrid is visible to the camera
-	bool isVisible(Vector3 theCameraPosition, Vector3 theCameraDirection, const int xIndex, const int zIndex);
+	bool IsVisible(Vector3 theCameraPosition, Vector3 theCameraDirection, const int xIndex, const int zIndex);
 };

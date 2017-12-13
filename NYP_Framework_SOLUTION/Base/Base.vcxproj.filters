@@ -87,9 +87,6 @@
     <ClCompile Include="Source\GenericEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Laser.cpp">
-      <Filter>WeaponInfo</Filter>
-    </ClCompile>
     <ClCompile Include="Source\WeaponInfo\LaserBlaster.cpp">
       <Filter>WeaponInfo</Filter>
     </ClCompile>
@@ -122,6 +119,9 @@
     </ClCompile>
     <ClCompile Include="Source\Enemy\Enemy.cpp">
       <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Laser.cpp">
+      <Filter>Projectile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -170,9 +170,6 @@
     <ClInclude Include="Source\GenericEntity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Laser.h">
-      <Filter>WeaponInfo</Filter>
-    </ClInclude>
     <ClInclude Include="Source\WeaponInfo\LaserBlaster.h">
       <Filter>WeaponInfo</Filter>
     </ClInclude>
@@ -205,6 +202,9 @@
     </ClInclude>
     <ClInclude Include="Source\Enemy\Enemy.h">
       <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Laser.h">
+      <Filter>Projectile</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

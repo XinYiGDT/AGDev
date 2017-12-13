@@ -76,9 +76,9 @@ void CLaser::Update(double dt)
 	}
 
 	// Update Position
-	position.Set(	position.x + (float)(theDirection.x * dt * m_fSpeed),
-					position.y + (float)(theDirection.y * dt * m_fSpeed),
-					position.z + (float)(theDirection.z * dt * m_fSpeed));
+	position.Set(position.x + (float)(theDirection.x * dt * m_fSpeed),
+		position.y + (float)(theDirection.y * dt * m_fSpeed),
+		position.z + (float)(theDirection.z * dt * m_fSpeed));
 }
 
 
@@ -93,34 +93,34 @@ void CLaser::Render(void)
 
 	MS& modelStack = GraphicsManager::GetInstance()->GetModelStack();
 	modelStack.PushMatrix();
-		// Reset the model stack
-		modelStack.LoadIdentity();
-		// We introduce a small offset to y position so that we can see the laser beam.
-		modelStack.Translate(position.x, position.y-0.001f, position.z);
-		//modelStack.Scale(scale.x, scale.y, scale.z);
-		modelStack.PushMatrix();
-		modelStack.Rotate(180 / Math::PI * angle_z, 0.0f, 1.0f, 0.0f);
-			modelStack.PushMatrix();
-			//modelStack.Rotate(180 / Math::PI * angle_x, 1.0f, 0.0f, 0.0f);	// Not needed!
-				modelStack.PushMatrix();
-					modelStack.Rotate(180 / Math::PI * angle_y, 1.0f, 0.0f, 0.0f);
-					glLineWidth(5.0f);
-					RenderHelper::RenderMesh(modelMesh);
-					glLineWidth(1.0f);
-				modelStack.PopMatrix();
-			modelStack.PopMatrix();
-		modelStack.PopMatrix();
+	// Reset the model stack
+	modelStack.LoadIdentity();
+	// We introduce a small offset to y position so that we can see the laser beam.
+	modelStack.Translate(position.x, position.y - 0.001f, position.z);
+	//modelStack.Scale(scale.x, scale.y, scale.z);
+	modelStack.PushMatrix();
+	modelStack.Rotate(180 / Math::PI * angle_z, 0.0f, 1.0f, 0.0f);
+	modelStack.PushMatrix();
+	//modelStack.Rotate(180 / Math::PI * angle_x, 1.0f, 0.0f, 0.0f);	// Not needed!
+	modelStack.PushMatrix();
+	modelStack.Rotate(180 / Math::PI * angle_y, 1.0f, 0.0f, 0.0f);
+	glLineWidth(5.0f);
+	RenderHelper::RenderMesh(modelMesh);
+	glLineWidth(1.0f);
+	modelStack.PopMatrix();
+	modelStack.PopMatrix();
+	modelStack.PopMatrix();
 	modelStack.PopMatrix();
 }
 
 // Create a projectile and add it into EntityManager
-CLaser* Create::Laser(const std::string& _meshName, 
-								const Vector3& _position, 
-								const Vector3& _direction, 
-								const float m_fLength, 
-								const float m_fLifetime, 
-								const float m_fSpeed,
-								CPlayerInfo* _source)
+CLaser* Create::Laser(const std::string& _meshName,
+	const Vector3& _position,
+	const Vector3& _direction,
+	const float m_fLength,
+	const float m_fLifetime,
+	const float m_fSpeed,
+	CPlayerInfo* _source)
 {
 	Mesh* modelMesh = MeshBuilder::GetInstance()->GetMesh(_meshName);
 	if (modelMesh == nullptr)
@@ -132,9 +132,10 @@ CLaser* Create::Laser(const std::string& _meshName,
 	result->SetStatus(true);
 	result->SetCollider(true);
 	result->SetSource(_source);
-	EntityManager::GetInstance()->AddEntity(result, true);
+	EntityManager::GetInstance()->AddEntity(result);
 
 	Vector3 base = Vector3(1.0f, 0.0f, 0.0f);
 	result->CalculateAngles();
+	result->SetSpeed(500);
 	return result;
 }
