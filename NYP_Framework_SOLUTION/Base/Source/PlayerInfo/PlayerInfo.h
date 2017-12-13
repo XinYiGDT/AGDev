@@ -95,7 +95,7 @@ public:
 	// Handling Camera
 	void AttachCamera(FPSCamera* _cameraPtr);
 	void DetachCamera();
-
+	int m_iCurrentWeapon;
 private:
 	Vector3 defaultPosition, defaultTarget, defaultUp;
 	Vector3 position, target, up;
@@ -114,6 +114,9 @@ private:
 	double m_dFallAcceleration;
 
 	FPSCamera* attachedCamera;
+
+	CWeaponInfo** weaponManager;
+	const int m_iNumOfWeapon = 2;
 
 	CWeaponInfo* primaryWeapon;
 	CWeaponInfo* secondaryWeapon;
