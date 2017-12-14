@@ -47,6 +47,7 @@ private:
 	GenericEntity* theCube;
 	//vector<CEnemy*> theEnemyList;
 	CEnemy* theEnemy;
+	CEnemy* movingEnemy;
 
 	int enemiesCount;
 

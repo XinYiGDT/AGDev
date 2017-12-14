@@ -41,7 +41,7 @@ void CLaserBlaster::Discharge(Vector3 postion, Vector3 target, CPlayerInfo * _so
 		{
 			Vector3 _direction = (target - postion).Normalized();
 			//Create a laser with a laser mesh. The length is 10.0f, mesh is also set at 10.0f
-			CLaser* aLaser = Create::Laser("laser", postion, _direction, 10.0f, 4.0f, 10.0f, _source);
+			CLaser* aLaser = Create::Laser("laser", postion, _direction, 10.0f, 10.0f, 100.0f, _source);
 
 			aLaser->SetIsLaser(true);
 			aLaser->SetCollider(false);

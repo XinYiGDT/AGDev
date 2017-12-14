@@ -13,7 +13,7 @@ public:
 	CEnemy();
 	virtual ~CEnemy();
 
-	void Init(void);
+	void Init(bool _isMoving = false);
 	//Reset this player instance to default
 	void Reset(void);
 
@@ -69,4 +69,5 @@ protected:
 	double m_dSpeed;
 	double m_dAcceleration;
 	int ID;
+	bool isMoving;
 };

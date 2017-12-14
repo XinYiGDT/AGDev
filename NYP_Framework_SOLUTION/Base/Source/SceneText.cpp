@@ -135,6 +135,9 @@ void SceneText::Init()
 	MeshBuilder::GetInstance()->GenerateRing("ring", Color(1, 0, 1), 36, 1, 0.5f);
 	MeshBuilder::GetInstance()->GenerateSphere("lightball", Color(1, 1, 1), 18, 36, 1.f);
 	MeshBuilder::GetInstance()->GenerateSphere("sphere", Color(1, 0, 0), 18, 36, 0.5f);
+	MeshBuilder::GetInstance()->GenerateSphere("sphere2", Color(0, 1, 0), 9, 18, 0.5f);
+	MeshBuilder::GetInstance()->GenerateSphere("sphere3", Color(0, 0, 1), 4, 9, 0.5f);
+
 	MeshBuilder::GetInstance()->GenerateCone("cone", Color(0.5f, 1, 0.3f), 36, 10.f, 10.f);
 	MeshBuilder::GetInstance()->GenerateCube("cube", Color(1.0f, 1.0f, 0.0f), 1.0f);
 	MeshBuilder::GetInstance()->GetMesh("cone")->material.kDiffuse.Set(0.99f, 0.99f, 0.99f);
@@ -161,21 +164,21 @@ void SceneText::Init()
 	MeshBuilder::GetInstance()->GenerateQuad("GRIDMESH", Color(1, 1, 1), 1.f);
 	MeshBuilder::GetInstance()->GenerateCube("cubeHead", Color(1.0f, 0.8f, 0.0f), 1.0f);
 
-	/*MeshBuilder::GetInstance()->GenerateOBJ("house", "OBJ//house.obj");
+	MeshBuilder::GetInstance()->GenerateOBJ("house", "OBJ//house.obj");
 	MeshBuilder::GetInstance()->GetMesh("house")->textureID = LoadTGA("Image//house.tga");
 
 	MeshBuilder::GetInstance()->GenerateOBJ("log", "OBJ//WoodLog.obj");
 	MeshBuilder::GetInstance()->GetMesh("log")->textureID = LoadTGA("Image//wood.tga");
 
 	MeshBuilder::GetInstance()->GenerateOBJ("tree", "OBJ//tree.obj");
-	MeshBuilder::GetInstance()->GetMesh("tree")->textureID = LoadTGA("Image//tree.tga");*/
+	MeshBuilder::GetInstance()->GetMesh("tree")->textureID = LoadTGA("Image//tree.tga");
 
 
 	//set up the spatial partition and pass it to the entityManager to manage
 	CSpatialPartition::GetInstance()->Init(100, 100, 10, 10);
 	CSpatialPartition::GetInstance()->SetMesh("GRIDMESH");
 	CSpatialPartition::GetInstance()->SetCamera(&camera);
-	CSpatialPartition::GetInstance()->SetLevelOfDetails(5000.0f, 10000.0f);//sets the distance for lod 
+	CSpatialPartition::GetInstance()->SetLevelOfDetails(10000.0f, 30000.0f);//sets the distance for lod 
 	EntityManager::GetInstance()->SetSpatialPartition(CSpatialPartition::GetInstance());
 
 
@@ -189,7 +192,7 @@ void SceneText::Init()
 		
 	}*/
 
-	/*Create::Entity("house", Vector3(0, -10.f, -200.f), Vector3(0.09f,0.09f,0.09f));
+	Create::Entity("house", Vector3(0, -10.f, -200.f), Vector3(0.09f,0.09f,0.09f));
 	Create::Entity("house", Vector3(300.f, -10.f, -200.f), Vector3(0.09f, 0.09f, 0.09f));
 	Create::Entity("house", Vector3(-300.f, -10.f, -200.f), Vector3(0.09f, 0.09f, 0.09f));
 	Create::Entity("house", Vector3(300.f, -10.f, 200.f), Vector3(0.09f, 0.09f, 0.09f));
@@ -205,7 +208,7 @@ void SceneText::Init()
 	Create::Entity("tree", Vector3(230.f, -30.f, -200.f), Vector3(5.f, 5.f, 5.f));
 	Create::Entity("tree", Vector3(-230.f, -30.f, -100.f), Vector3(5.f, 5.f, 5.f));
 	Create::Entity("tree", Vector3(230.f, -30.f, 300.f), Vector3(5.f, 5.f, 5.f));
-	Create::Entity("tree", Vector3(-230.f, -30.f, 100.f), Vector3(5.f, 5.f, 5.f));*/
+	Create::Entity("tree", Vector3(-230.f, -30.f, 100.f), Vector3(5.f, 5.f, 5.f));
 	//------
 	//-----scene graph - week5
 	GenericEntity* baseCube = Create::Asset("cube", Vector3(0.0f, 0.0f, 0.0f));
@@ -226,12 +229,15 @@ void SceneText::Init()
 	//Create a CEnemy instance
 	theEnemy = new CEnemy();
 	theEnemy->Init();
+	theEnemy->SetPos(Vector3(10, 1.1f, -20.0f));
 
-	//theEnemy->SetPos(Vector3(-10.0f, 1.1f, -20.0f));
+	movingEnemy = new CEnemy();
+	movingEnemy->Init(true);
+	movingEnemy->SetPos(Vector3(-10.0f, 1.1f, -20.0f));
 
 	enemyModel();
-	//enemy2Model();
-	//enemy3Model();
+	enemy2Model();
+	enemy3Model();
 
 	groundEntity = Create::Ground("SKYBOX_BOTTOM", "SKYBOX_BOTTOM");
 //	Create::Text3DObject("text", Vector3(0.0f, 0.0f, 0.0f), "DM2210", Vector3(10.0f, 10.0f, 10.0f), Color(0, 1, 1));
@@ -258,7 +264,8 @@ void SceneText::Init()
 
 
 	theEnemy->SetTerrain(groundEntity);
-	
+	movingEnemy->SetTerrain(groundEntity);
+
 	MovePosition.Set(10.0f, 0.0f, 0.0f);
 	target.Set(10.0f, 0.0f, 450.0f);
 
@@ -269,7 +276,7 @@ void SceneText::Init()
 	float halfFontSize = fontSize / 2.0f;
 	for (int i = 0; i < 3; ++i)
 	{
-		textObj[i] = Create::Text2DObject("text", Vector3(-halfWindowWidth, -halfWindowHeight + fontSize*i + halfFontSize, 0.0f), "", Vector3(fontSize, fontSize, fontSize), Color(0.0f,1.0f,0.0f));
+		textObj[i] = Create::Text2DObject("text", Vector3(-halfWindowWidth, -halfWindowHeight + fontSize*i + halfFontSize, 1.0f), "", Vector3(fontSize, fontSize, fontSize), Color(0.0f,1.0f,0.0f));
 	}
 	textObj[0]->SetText("HELLO WORLD");
 }
@@ -400,22 +407,30 @@ void SceneText::Render()
 	GraphicsManager::GetInstance()->SetOrthographicProjection(-halfWindowWidth, halfWindowWidth, -halfWindowHeight, halfWindowHeight, -10, 10);
 	GraphicsManager::GetInstance()->DetachCamera();
 	EntityManager::GetInstance()->RenderUI();
+
+	for (int i = 0; i < 3; i++)
+	{
+		textObj[i]->RenderUI();
+	}
+	
 }
 
 void SceneText::enemyModel()
 {
-	GenericEntity* headCube = Create::Entity("cubeHead", Vector3(-20.0f, 0.0f, -20.0f), Vector3(2.0f, 2.0f, 2.0f));
+	GenericEntity* headCube = Create::Entity("sphere", Vector3(theEnemy->GetPos().x, theEnemy->GetPos().y + 4, theEnemy->GetPos().z), Vector3(2.0f, 2.0f, 2.0f));
 	headCube->SetCollider(true);
 	headCube->SetAABB(Vector3(1.f, 1.f, 1.f), Vector3(-1.f, -1.f, -1.f));
-	headCube->InitLOD("cubeHead", "sphere", "cubeSG"); //high, mid, low
+	headCube->InitLOD("sphere", "sphere2", "sphere3"); //high, mid, low
 
-	GenericEntity* rightArmCube = Create::Entity("cubeSG", Vector3(-18.0f, -3.1f, -20.0f), Vector3(1.0f, 4.0f, 2.0f));
+	GenericEntity* rightArmCube = Create::Entity("sphere", Vector3(theEnemy->GetPos().x + 2, theEnemy->GetPos().y, theEnemy->GetPos().z), Vector3(1.0f, 4.0f, 2.0f));
 	rightArmCube->SetCollider(true);
 	rightArmCube->SetAABB(Vector3(0.5f, 2.0f, 1.0f), Vector3(-0.5f, -2.0f, -1.0f));
+	rightArmCube->InitLOD("sphere", "sphere2", "sphere3"); //high, mid, low
 
-	GenericEntity* leftArmCube = Create::Entity("cubeSG", Vector3(-22.0f, -3.1f, -20.0f), Vector3(1.0f, 4.0f, 2.0f));
+	GenericEntity* leftArmCube = Create::Entity("sphere", Vector3(theEnemy->GetPos().x - 2, theEnemy->GetPos().y, theEnemy->GetPos().z), Vector3(1.0f, 4.0f, 2.0f));
 	leftArmCube->SetCollider(true);
 	leftArmCube->SetAABB(Vector3(0.5f, 2.f, 1.f), Vector3(-0.5f, -2.f, -1.f));
+	leftArmCube->InitLOD("sphere", "sphere2", "sphere3"); //high, mid, low
 
 	theEnemy->theMainNode->AddChild(headCube); //add head to body
 	theEnemy->theMainNode->AddChild(leftArmCube); //add leftarm to body

@@ -15,6 +15,7 @@ CEnemy::CEnemy()
 	, m_pTerrain(NULL)
 	, ID(0)
 	, theRoot(NULL)
+	, isMoving(false)
 {
 	theRoot = new CSceneNode();
 	theRoot->SetID(this->GenerateID());
@@ -24,7 +25,7 @@ CEnemy::~CEnemy()
 {
 }
 
-void CEnemy::Init(void)
+void CEnemy::Init(bool _isMoving)
 {
 	//set the default values
 	defaultPosition.Set(0, 0, 10);
@@ -33,7 +34,7 @@ void CEnemy::Init(void)
 
 	//set the current values
 	position.Set(10.0f, 0.0f, 0.0f);
-	scale.Set(1.f, 1.f, 1.f);
+	scale.Set(3.f, 6.f, 3.f);
 	target.Set(10.0f, 0.0f, 450.0f);
 	up.Set(0.0f, 1.0f, 0.0f);
 
@@ -42,18 +43,20 @@ void CEnemy::Init(void)
 	minBoundary.Set(-1.0f, -1.0f, -1.0f);
 
 	//set speed
-	m_dSpeed = 25.0;
+	m_dSpeed = 50.0;
 
 	//initialise the LOD meshes
-	InitLOD("cube", "sphere", "cubeSG");
+	InitLOD("sphere", "sphere2", "sphere3");
 
 	//initialise the collider
 	this->SetCollider(true);
-	this->SetAABB(Vector3(1, 1, 1), Vector3(-1, -1, -1));
+	this->SetAABB(Vector3(1.5, 3, 1.5), Vector3(-1.5, -3, -1.5));
 
 	//add to entitymanager
 	EntityManager::GetInstance()->AddEntity(this, true);
 	theMainNode = CSceneGraph::GetInstance()->AddNode(this);
+
+	isMoving = _isMoving;
 }
 
 void CEnemy::Reset(void)
@@ -135,7 +138,10 @@ GroundEntity * CEnemy::GetTerrain(void) const
 void CEnemy::Update(double dt)
 {
 	Vector3 viewVector = (target - position).Normalized();
-	//position += viewVector * (float)m_dSpeed * (float)dt;
+	if (isMoving)
+	{
+		position += viewVector * (float)m_dSpeed * (float)dt;
+	}
 	//cout << position << "..." << viewVector << endl;
 
 	//contrain the position
