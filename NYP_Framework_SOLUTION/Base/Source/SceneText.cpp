@@ -161,14 +161,14 @@ void SceneText::Init()
 	MeshBuilder::GetInstance()->GenerateQuad("GRIDMESH", Color(1, 1, 1), 1.f);
 	MeshBuilder::GetInstance()->GenerateCube("cubeHead", Color(1.0f, 0.8f, 0.0f), 1.0f);
 
-	MeshBuilder::GetInstance()->GenerateOBJ("house", "OBJ//house.obj");
+	/*MeshBuilder::GetInstance()->GenerateOBJ("house", "OBJ//house.obj");
 	MeshBuilder::GetInstance()->GetMesh("house")->textureID = LoadTGA("Image//house.tga");
 
 	MeshBuilder::GetInstance()->GenerateOBJ("log", "OBJ//WoodLog.obj");
 	MeshBuilder::GetInstance()->GetMesh("log")->textureID = LoadTGA("Image//wood.tga");
 
 	MeshBuilder::GetInstance()->GenerateOBJ("tree", "OBJ//tree.obj");
-	MeshBuilder::GetInstance()->GetMesh("tree")->textureID = LoadTGA("Image//tree.tga");
+	MeshBuilder::GetInstance()->GetMesh("tree")->textureID = LoadTGA("Image//tree.tga");*/
 
 
 	//set up the spatial partition and pass it to the entityManager to manage
@@ -189,7 +189,7 @@ void SceneText::Init()
 		
 	}*/
 
-	Create::Entity("house", Vector3(0, -10.f, -200.f), Vector3(0.09f,0.09f,0.09f));
+	/*Create::Entity("house", Vector3(0, -10.f, -200.f), Vector3(0.09f,0.09f,0.09f));
 	Create::Entity("house", Vector3(300.f, -10.f, -200.f), Vector3(0.09f, 0.09f, 0.09f));
 	Create::Entity("house", Vector3(-300.f, -10.f, -200.f), Vector3(0.09f, 0.09f, 0.09f));
 	Create::Entity("house", Vector3(300.f, -10.f, 200.f), Vector3(0.09f, 0.09f, 0.09f));
@@ -205,7 +205,7 @@ void SceneText::Init()
 	Create::Entity("tree", Vector3(230.f, -30.f, -200.f), Vector3(5.f, 5.f, 5.f));
 	Create::Entity("tree", Vector3(-230.f, -30.f, -100.f), Vector3(5.f, 5.f, 5.f));
 	Create::Entity("tree", Vector3(230.f, -30.f, 300.f), Vector3(5.f, 5.f, 5.f));
-	Create::Entity("tree", Vector3(-230.f, -30.f, 100.f), Vector3(5.f, 5.f, 5.f));
+	Create::Entity("tree", Vector3(-230.f, -30.f, 100.f), Vector3(5.f, 5.f, 5.f));*/
 	//------
 	//-----scene graph - week5
 	GenericEntity* baseCube = Create::Asset("cube", Vector3(0.0f, 0.0f, 0.0f));
@@ -224,14 +224,14 @@ void SceneText::Init()
 	grandChildNode->SetUpdateToTransformation(aRotateMtx);
 
 	//Create a CEnemy instance
-		theEnemy = new CEnemy();
-		theEnemy->Init();
+	theEnemy = new CEnemy();
+	theEnemy->Init();
 
 	//theEnemy->SetPos(Vector3(-10.0f, 1.1f, -20.0f));
 
 	enemyModel();
-	enemy2Model();
-	enemy3Model();
+	//enemy2Model();
+	//enemy3Model();
 
 	groundEntity = Create::Ground("SKYBOX_BOTTOM", "SKYBOX_BOTTOM");
 //	Create::Text3DObject("text", Vector3(0.0f, 0.0f, 0.0f), "DM2210", Vector3(10.0f, 10.0f, 10.0f), Color(0, 1, 1));
@@ -404,60 +404,27 @@ void SceneText::Render()
 
 void SceneText::enemyModel()
 {
-	//Vector3 enemyPos[] = { Vector3(1,0,0), Vector3(0,0,1), Vector3(-1,0,0), Vector3(0,0,-1),  Vector3(1,0,0), };
-
-	//int random = Math::RandFloatMinMax(0, 4);
-
-
 	GenericEntity* headCube = Create::Entity("cubeHead", Vector3(-20.0f, 0.0f, -20.0f), Vector3(2.0f, 2.0f, 2.0f));
 	headCube->SetCollider(true);
 	headCube->SetAABB(Vector3(1.f, 1.f, 1.f), Vector3(-1.f, -1.f, -1.f));
 	headCube->InitLOD("cubeHead", "sphere", "cubeSG"); //high, mid, low
 
-													   //add the pointer to this new entity to the scene graph
-	//CSceneNode* theNode = CSceneGraph::GetInstance()->AddNode(headCube);
-	CSceneNode* theNode = theEnemy->AddNode(headCube);
-	if (theNode == NULL)
-	{
-		cout << "EntityManager::AddEntity: Unable to add to scene graph!" << endl;
-	}
+	GenericEntity* rightArmCube = Create::Entity("cubeSG", Vector3(-18.0f, -3.1f, -20.0f), Vector3(1.0f, 4.0f, 2.0f));
+	rightArmCube->SetCollider(true);
+	rightArmCube->SetAABB(Vector3(0.5f, 2.0f, 1.0f), Vector3(-0.5f, -2.0f, -1.0f));
+
+	GenericEntity* leftArmCube = Create::Entity("cubeSG", Vector3(-22.0f, -3.1f, -20.0f), Vector3(1.0f, 4.0f, 2.0f));
+	leftArmCube->SetCollider(true);
+	leftArmCube->SetAABB(Vector3(0.5f, 2.f, 1.f), Vector3(-0.5f, -2.f, -1.f));
+
+	theEnemy->theMainNode->AddChild(headCube); //add head to body
+	theEnemy->theMainNode->AddChild(leftArmCube); //add leftarm to body
+	theEnemy->theMainNode->AddChild(rightArmCube); //add rightarm to body
 
 	//CUpdateTransformation* movement = new CUpdateTransformation();
 	//movement->ApplyUpdate(enemyPos[random].x, enemyPos[random].y, enemyPos[random].z);
 	//movement->SetSteps(-10, 10);
 	//theNode->SetUpdateToTransformation(movement);
-
-
-	GenericEntity* bodyCube = Create::Entity("cube", Vector3(-20.0f, -3.1f, -20.0f), Vector3(3.0f, 6.0f, 3.0f));
-	bodyCube->SetCollider(true);
-	bodyCube->SetAABB(Vector3(1.5f, 3.f, 1.5f), Vector3(-1.5f, -3.f, -1.5f));
-	//add the pointer to this new entity to the scene graph
-	CSceneNode* anotherNode = theNode->AddChild(bodyCube);
-	anotherNode->SetSource(theEnemy);
-	if (anotherNode == NULL)
-	{
-		cout << "EntityManager::AddEntity: Unable to add to scene graph!" << endl;
-	}
-
-	GenericEntity* leftArmCube = Create::Entity("cubeSG", Vector3(-22.0f, -3.1f, -20.0f), Vector3(1.0f, 4.0f, 2.0f));
-	leftArmCube->SetCollider(true);
-	leftArmCube->SetAABB(Vector3(0.5f, 2.f, 1.f), Vector3(-0.5f, -2.f, -1.f));
-	//add the pointer to this new entity to the scene graph
-	CSceneNode* leftArmNode = anotherNode->AddChild(leftArmCube);
-	if (leftArmNode == NULL)
-	{
-		cout << "EntityManager::AddEntity: Unable to add to scene graph!" << endl;
-	}
-
-	GenericEntity* rightArmCube = Create::Entity("cubeSG", Vector3(-18.0f, -3.1f, -20.0f), Vector3(1.0f, 4.0f, 2.0f));
-	rightArmCube->SetCollider(true);
-	rightArmCube->SetAABB(Vector3(0.5f, 2.0f, 1.0f), Vector3(-0.5f, -2.0f, -1.0f));
-	//add the pointer to this new entity to the scene graph
-	CSceneNode* rightArmNode = theNode->AddChild(rightArmCube);
-	if (rightArmNode == NULL)
-	{
-		cout << "EntityManager::AddEntity: Unable to add to scene graph!" << endl;
-	}
 }
 
 void SceneText::enemy2Model()

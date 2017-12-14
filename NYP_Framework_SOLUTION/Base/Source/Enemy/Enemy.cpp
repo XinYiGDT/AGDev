@@ -33,7 +33,7 @@ void CEnemy::Init(void)
 
 	//set the current values
 	position.Set(10.0f, 0.0f, 0.0f);
-	scale.Set(5.f, 5.f, 5.f);
+	scale.Set(1.f, 1.f, 1.f);
 	target.Set(10.0f, 0.0f, 450.0f);
 	up.Set(0.0f, 1.0f, 0.0f);
 
@@ -53,6 +53,7 @@ void CEnemy::Init(void)
 
 	//add to entitymanager
 	EntityManager::GetInstance()->AddEntity(this, true);
+	theMainNode = CSceneGraph::GetInstance()->AddNode(this);
 }
 
 void CEnemy::Reset(void)
@@ -134,7 +135,7 @@ GroundEntity * CEnemy::GetTerrain(void) const
 void CEnemy::Update(double dt)
 {
 	Vector3 viewVector = (target - position).Normalized();
-	position += viewVector * (float)m_dSpeed * (float)dt;
+	//position += viewVector * (float)m_dSpeed * (float)dt;
 	//cout << position << "..." << viewVector << endl;
 
 	//contrain the position
@@ -146,7 +147,7 @@ void CEnemy::Update(double dt)
 	else if (position.z < -300.f)
 		target.z = position.z * -1;
 
-	theRoot->Update();
+	//theRoot->Update();
 }
 
 void CEnemy::Constrain(void)

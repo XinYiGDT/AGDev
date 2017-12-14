@@ -9,6 +9,7 @@ class Mesh;
 class CEnemy : public GenericEntity
 {
 public:
+	CSceneNode* theMainNode;
 	CEnemy();
 	virtual ~CEnemy();
 
