@@ -49,7 +49,6 @@ private:
 	CEnemy* theEnemy;
 	CEnemy* movingEnemy;
 
-	int enemiesCount;
 
 	Vector3 MovePosition,target;
 

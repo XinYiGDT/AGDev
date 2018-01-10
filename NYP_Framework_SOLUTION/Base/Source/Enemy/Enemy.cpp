@@ -2,6 +2,7 @@
 #include "../EntityManager.h"
 #include "GraphicsManager.h"
 #include "RenderHelper.h"
+#include "../Waypoint/WaypointManager.h"
 
 CEnemy::CEnemy()
 	: GenericEntity(NULL)
@@ -13,12 +14,10 @@ CEnemy::CEnemy()
 	, maxBoundary(Vector3(0.0f, 0.0f, 0.0f))
 	, minBoundary(Vector3(0.0f, 0.0f, 0.0f))
 	, m_pTerrain(NULL)
-	, ID(0)
-	, theRoot(NULL)
 	, isMoving(false)
+	, m_iWayPointIndex(-1)
 {
-	theRoot = new CSceneNode();
-	theRoot->SetID(this->GenerateID());
+	listOfWaypoints.clear();
 }
 
 CEnemy::~CEnemy()
@@ -32,10 +31,23 @@ void CEnemy::Init(bool _isMoving)
 	defaultTarget.Set(0, 0, 0);
 	defaultUp.Set(0, 1, 0);
 
+	//Set up the waypoints
+	listOfWaypoints.push_back(0);
+	listOfWaypoints.push_back(1);
+	listOfWaypoints.push_back(2);
+
+	m_iWayPointIndex = 0;
+
 	//set the current values
 	position.Set(10.0f, 0.0f, 0.0f);
 	scale.Set(3.f, 6.f, 3.f);
-	target.Set(10.0f, 0.0f, 450.0f);
+	//target.Set(10.0f, 0.0f, 450.0f);
+	CWaypoint* nextWaypoint = GetNextWaypoint();
+	if (nextWaypoint)
+		target = nextWaypoint->GetPosition();
+	else
+		target = Vector3(0, 0, 0);
+	cout << "Next target: " << target << endl;
 	up.Set(0.0f, 1.0f, 0.0f);
 
 	//set boundary
@@ -65,23 +77,6 @@ void CEnemy::Reset(void)
 	position = defaultPosition;
 	target = defaultTarget;
 	up = defaultUp;
-}
-
-CSceneNode * CEnemy::AddNode(EntityBase * theEntity)
-{
-	CSceneNode* aNewSceneNode = theRoot->AddChild(theEntity);
-	theRoot->SetSource(this);
-	return aNewSceneNode;
-}
-
-bool CEnemy::DeleteNode(EntityBase * theEntity)
-{
-	return theRoot->DeleteChild(theEntity);
-}
-
-int CEnemy::GenerateID(void)
-{
-	return ID++;
 }
 
 void CEnemy::SetPos(const Vector3 & _pos)
@@ -135,25 +130,46 @@ GroundEntity * CEnemy::GetTerrain(void) const
 	return m_pTerrain;
 }
 
+CWaypoint * CEnemy::GetNextWaypoint(void)
+{
+	if ((int)listOfWaypoints.size() > 0)
+	{
+		m_iWayPointIndex++;
+		if (m_iWayPointIndex >= (int)listOfWaypoints.size())
+			m_iWayPointIndex = 0;
+		return CWaypointManager::GetInstance()->GetWaypoint(listOfWaypoints[m_iWayPointIndex]);
+	}
+	else
+		return NULL;
+}
+
 void CEnemy::Update(double dt)
 {
 	Vector3 viewVector = (target - position).Normalized();
 	if (isMoving)
 	{
 		position += viewVector * (float)m_dSpeed * (float)dt;
+
 	}
-	//cout << position << "..." << viewVector << endl;
 
 	//contrain the position
 	Constrain();
 
 	//update the target
-	if (position.z > 300.f)
+	/*if (position.z > 300.f)
 		target.z = position.z * -1;
 	else if (position.z < -300.f)
-		target.z = position.z * -1;
+		target.z = position.z * -1;*/
 
-	//theRoot->Update();
+	if ((target - position).LengthSquared() < 25.0f)
+	{
+		CWaypoint* nextWaypoint = GetNextWaypoint();
+		if (nextWaypoint)
+			target = nextWaypoint->GetPosition();
+		else
+			target = Vector3(0, 0, 0);
+		cout << "Next target: " << target << endl;
+	}
 }
 
 void CEnemy::Constrain(void)
@@ -191,5 +207,4 @@ void CEnemy::Render(void)
 		}
 	}
 	modelStack.PopMatrix();
-	theRoot->Render();
 }

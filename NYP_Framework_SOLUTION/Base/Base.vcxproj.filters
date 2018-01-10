@@ -40,6 +40,9 @@
     <Filter Include="CameraEffect">
       <UniqueIdentifier>{e259ba02-f0f9-494e-8174-491df434454c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Waypoint">
+      <UniqueIdentifier>{f4e30007-0b88-40be-b9a2-e9725a2c84d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp">
@@ -129,6 +132,12 @@
     <ClCompile Include="Source\CameraEffect\CameraEffects.cpp">
       <Filter>CameraEffect</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Waypoint\Waypoint.cpp">
+      <Filter>Waypoint</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Waypoint\WaypointManager.cpp">
+      <Filter>Waypoint</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -214,6 +223,12 @@
     </ClInclude>
     <ClInclude Include="Source\CameraEffect\CameraEffects.h">
       <Filter>CameraEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Waypoint\Waypoint.h">
+      <Filter>Waypoint</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Waypoint\WaypointManager.h">
+      <Filter>Waypoint</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

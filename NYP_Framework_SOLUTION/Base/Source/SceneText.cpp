@@ -22,6 +22,8 @@
 #include "SkyBox/SkyBoxEntity.h"
 #include "SceneNode.h"
 #include "SceneGraph.h"
+#include "Waypoint\Waypoint.h"
+#include "Waypoint\WaypointManager.h"
 
 #include <iostream>
 using namespace std;
@@ -226,6 +228,13 @@ void SceneText::Init()
 	aRotateMtx->SetSteps(-120, 60);
 	grandChildNode->SetUpdateToTransformation(aRotateMtx);
 
+	//Created a Waypoint inside WaypointManager
+	int aWaypoint = CWaypointManager::GetInstance()->AddWaypoint(Vector3(10.0f, 0.0f, 50.0f));
+	int anotherWaypoint = CWaypointManager::GetInstance()->AddWaypoint(Vector3(10.0f, 0.0f, -50.0f));
+	CWaypointManager::GetInstance()->AddWaypoint(anotherWaypoint, Vector3(-10.0f, 0.0f, 0.0f));
+	CWaypointManager::GetInstance()->PrintSelf();
+
+
 	//Create a CEnemy instance
 	theEnemy = new CEnemy();
 	theEnemy->Init();
@@ -235,9 +244,9 @@ void SceneText::Init()
 	movingEnemy->Init(true);
 	movingEnemy->SetPos(Vector3(-10.0f, 1.1f, -20.0f));
 
-	enemyModel();
-	enemy2Model();
-	enemy3Model();
+	enemyModel(); //body parts of theEnemy
+	//enemy2Model();
+	//enemy3Model();
 
 	groundEntity = Create::Ground("SKYBOX_BOTTOM", "SKYBOX_BOTTOM");
 //	Create::Text3DObject("text", Vector3(0.0f, 0.0f, 0.0f), "DM2210", Vector3(10.0f, 10.0f, 10.0f), Color(0, 1, 1));
@@ -436,10 +445,6 @@ void SceneText::enemyModel()
 	theEnemy->theMainNode->AddChild(leftArmCube); //add leftarm to body
 	theEnemy->theMainNode->AddChild(rightArmCube); //add rightarm to body
 
-	//CUpdateTransformation* movement = new CUpdateTransformation();
-	//movement->ApplyUpdate(enemyPos[random].x, enemyPos[random].y, enemyPos[random].z);
-	//movement->SetSteps(-10, 10);
-	//theNode->SetUpdateToTransformation(movement);
 }
 
 void SceneText::enemy2Model()

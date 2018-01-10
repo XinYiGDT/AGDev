@@ -1,8 +1,11 @@
 #pragma once
 #include "../GenericEntity.h"
 #include "../GroundEntity.h"
-
 #include "../SceneGraph.h"
+#include "../Waypoint/Waypoint.h"
+
+#include <vector>
+using namespace std;
 
 class Mesh;
 
@@ -16,17 +19,6 @@ public:
 	void Init(bool _isMoving = false);
 	//Reset this player instance to default
 	void Reset(void);
-
-
-	//Scene graph
-	// Add a Node to this Scene Graph
-	CSceneNode* AddNode(EntityBase* theEntity = NULL);
-	// Delete a Node from this Scene Graph using the pointer to the node
-	bool DeleteNode(EntityBase* theEntity);
-	// Generate an ID for a Scene Node
-	int GenerateID(void);
-
-	CSceneNode* theRoot;
 
 
 	//set position
@@ -48,6 +40,8 @@ public:
 	Vector3 GetUP(void)const;
 	//get the terrain for the player info
 	GroundEntity* GetTerrain(void)const;
+	//get next waypoint for this CEnemy
+	CWaypoint* GetNextWaypoint(void);
 
 	//update
 	void Update(double dt = 0.0333f);
@@ -57,17 +51,18 @@ public:
 	//render
 	void Render(void);
 
-	void enemyModel();
-
 protected:
 	Vector3 defaultPosition, defaultTarget, defaultUp;
 	Vector3 target, up;
 	Vector3 maxBoundary, minBoundary;
 	GroundEntity* m_pTerrain;
-	int i = 0;
+
+	//Vector containing IDs of waypoints
+	vector<int> listOfWaypoints;
+	//current ID of waypoints
+	int m_iWayPointIndex;
 
 	double m_dSpeed;
 	double m_dAcceleration;
-	int ID;
 	bool isMoving;
 };
