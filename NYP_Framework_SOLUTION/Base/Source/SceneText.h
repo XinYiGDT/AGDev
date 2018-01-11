@@ -34,9 +34,9 @@ public:
 	void enemy3Model();
 
 private:
-	SceneText(SceneManager* _sceneMgr); // This is used to register to SceneManager
+	//SceneText(SceneManager* _sceneMgr); // This is used to register to SceneManager
 
-	ShaderProgram* currProg;
+	//ShaderProgram* currProg;
 	CPlayerInfo* playerInfo;
 	GroundEntity* groundEntity;
 	FPSCamera camera;
@@ -52,7 +52,7 @@ private:
 
 	Vector3 MovePosition,target;
 
-	static SceneText* sInstance; // The pointer to the object that gets registered
+	//static SceneText* sInstance; // The pointer to the object that gets registered
 };
 
 #endif
