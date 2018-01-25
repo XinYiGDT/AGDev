@@ -8,6 +8,7 @@
 #include "../WeaponInfo/Pistol.h"
 #include "../WeaponInfo/LaserBlaster.h"
 #include "../WeaponInfo/GranadeThrow.h"
+#include "../Lua/LuaInterface.h"
 
 // Allocating and initializing CPlayerInfo's static data member.  
 // The pointer is allocated but not the object's constructor.
@@ -28,6 +29,10 @@ CPlayerInfo::CPlayerInfo(void)
 	, secondaryWeapon(NULL)
 	, weaponManager(NULL)
 	, m_iCurrentWeapon(0)
+	, keyMoveForward('W')
+	, keyMoveBackward('S')
+	, keyMoveLeft('A')
+	, keyMoveRight('D')
 {
 }
 
@@ -64,9 +69,14 @@ void CPlayerInfo::Init(void)
 	defaultUp.Set(0,1,0);
 
 	// Set the current values
-	position.Set(0, 0, 50);
+	position = CLuaInterface::GetInstance()->getVector3Values("CPlayerInfoStartPos");
 	target.Set(0, 0, 0);
 	up.Set(0, 1, 0);
+
+	distanceSquare = CLuaInterface::GetInstance()->getDistanceSquareValue("CalculateDistanceSquare", Vector3(0, 0, 0), Vector3(10, 10, 10));
+
+	int a = 1, b = 2, c = 3, d = 4;
+	CLuaInterface::GetInstance()->getVariableValues("GetMinMax", a, b, c, d);
 
 	// Set Boundary
 	maxBoundary.Set(1,1,1);
@@ -87,6 +97,12 @@ void CPlayerInfo::Init(void)
 	secondaryWeapon->Init();*/
 	secondaryWeapon = new CGrenadeThrow();
 	secondaryWeapon->Init();
+
+	//initialise the custom keyboard inputs
+	keyMoveForward = CLuaInterface::GetInstance()->getCharValue("moveForward");
+	keyMoveBackward = CLuaInterface::GetInstance()->getCharValue("moveBackward");
+	keyMoveLeft = CLuaInterface::GetInstance()->getCharValue("moveLeft");
+	keyMoveRight = CLuaInterface::GetInstance()->getCharValue("moveRight");
 }
 
 // Returns true if the player is on ground
@@ -296,26 +312,26 @@ void CPlayerInfo::Update(double dt)
 	double camera_pitch = mouse_diff_y * 0.0174555555555556;	// 3.142 / 180.0
 
 	// Update the position if the WASD buttons were activated
-	if (KeyboardController::GetInstance()->IsKeyDown('W') ||
-		KeyboardController::GetInstance()->IsKeyDown('A') ||
-		KeyboardController::GetInstance()->IsKeyDown('S') ||
+	if (KeyboardController::GetInstance()->IsKeyDown(keyMoveForward) ||
+		KeyboardController::GetInstance()->IsKeyDown(keyMoveLeft) ||
+		KeyboardController::GetInstance()->IsKeyDown(keyMoveBackward) ||
 		KeyboardController::GetInstance()->IsKeyDown('D'))
 	{
 		Vector3 viewVector = target - position;
 		Vector3 rightUV;
-		if (KeyboardController::GetInstance()->IsKeyDown('W'))
+		if (KeyboardController::GetInstance()->IsKeyDown(keyMoveForward))
 		{
 			Vector3 temp(viewVector);
 			temp.y = 0;
 			position += temp.Normalized() * (float)m_dSpeed * (float)dt;
 		}
-		else if (KeyboardController::GetInstance()->IsKeyDown('S'))
+		else if (KeyboardController::GetInstance()->IsKeyDown(keyMoveBackward))
 		{
 			Vector3 temp(viewVector);
 			temp.y = 0;
 			position -= temp.Normalized() * (float)m_dSpeed * (float)dt;
 		}
-		if (KeyboardController::GetInstance()->IsKeyDown('A'))
+		if (KeyboardController::GetInstance()->IsKeyDown(keyMoveLeft))
 		{
 			rightUV = (viewVector.Normalized()).Cross(up);
 			rightUV.y = 0;

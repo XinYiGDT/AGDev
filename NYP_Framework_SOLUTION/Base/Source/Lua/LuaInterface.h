@@ -2,6 +2,7 @@
 
 //includes the lua headers
 #include <lua.hpp>
+#include "Vector3.h"
 
 class CLuaInterface
 {
@@ -41,10 +42,22 @@ public:
 	void Drop();
 
 	int getIntValue(char* text);
+
+	//get a char value through the Lua Interface Class
+	char getCharValue(const char* varName);
+	//get Vector3 values through the Lua Interface Class
+	Vector3 getVector3Values(const char* varName);
+
 	void saveFloatValue(char* varName, float value, bool overwrite = false);
-	void saveIntValue(char* varName, float value, bool overwrite = false);
+	void saveIntValue(char* varName, int value, bool overwrite = false);
 
 	//Pointer to the lua state
 	lua_State *theLuaState;
+
+	//Get distance square value through the lua interface class
+	float getDistanceSquareValue(const char* varName, Vector3 source, Vector3 destination);
+
+	//Get Variable number of values through the Lua Interface Class
+	int getVariableValues(const char* varName, int &a, int &b, int &c, int &d);
 
 };
