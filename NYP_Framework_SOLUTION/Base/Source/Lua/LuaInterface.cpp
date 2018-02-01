@@ -33,6 +33,17 @@ bool CLuaInterface::Init()
 		result = true;
 	}
 
+	theErrorState = lua_open();
+
+	if ((theLuaState) && (theErrorState))
+	{
+		//2. Load lua auxiliary libraries
+		luaL_openlibs(theLuaState);
+
+		//Load the error lua script
+		luaL_dofile(theErrorState, "Image//errorLookup.lua");
+	}
+
 	return result;
 }
 
@@ -159,5 +170,35 @@ int CLuaInterface::getVariableValues(const char * varName, int & a, int & b, int
 	lua_pop(theLuaState, 1);
 
 	return true;
+}
+//Extract a field from a table
+float CLuaInterface::GetField(const char * key)
+{
+	int result = false;
+
+	//check if the variables in the Lua stack belongs to a table
+	if (!lua_istable(theLuaState, -1))
+		error("error100");
+
+	lua_pushstring(theLuaState, key);
+	lua_gettable(theLuaState, -2);
+	if (!lua_isnumber(theLuaState, -1))
+		error("error101");
+	result = (int)lua_tonumber(theLuaState, -1);
+	lua_pop(theLuaState, 1); //remove number
+	return result;
+}
+
+void CLuaInterface::error(const char * errorCode)
+{
+	if (theErrorState == NULL)
+		return;
+
+	lua_getglobal(theErrorState, errorCode);
+	const char *errorMsg = lua_tostring(theErrorState, -1);
+	if (errorMsg != NULL)
+		cout << errorMsg << endl;
+	else
+		cout << errorCode << " is not valid.\n*** Please contact the developer ***" << endl;
 }
 

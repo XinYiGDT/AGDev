@@ -188,9 +188,20 @@ void SceneText::Init()
 	grandChildNode->SetUpdateToTransformation(aRotateMtx);
 
 	//Created a Waypoint inside WaypointManager
-	int aWaypoint = CWaypointManager::GetInstance()->AddWaypoint(Vector3(10.0f, 0.0f, 50.0f));
-	int anotherWaypoint = CWaypointManager::GetInstance()->AddWaypoint(Vector3(10.0f, 0.0f, -50.0f));
-	CWaypointManager::GetInstance()->AddWaypoint(anotherWaypoint, Vector3(-10.0f, 0.0f, 0.0f));
+	lua_getglobal(CLuaInterface::GetInstance()->theLuaState, "Waypoint_A_1");
+	int aWaypoint = CWaypointManager::GetInstance()->AddWaypoint(Vector3(CLuaInterface::GetInstance()->GetField("x"), 
+																			CLuaInterface::GetInstance()->GetField("y"), 
+																			CLuaInterface::GetInstance()->GetField("z")));
+
+	lua_getglobal(CLuaInterface::GetInstance()->theLuaState, "Waypoint_A_2");
+	int anotherWaypoint = CWaypointManager::GetInstance()->AddWaypoint(aWaypoint,Vector3(CLuaInterface::GetInstance()->GetField("x"),
+																						CLuaInterface::GetInstance()->GetField("y"),
+																						CLuaInterface::GetInstance()->GetField("z")));
+
+	lua_getglobal(CLuaInterface::GetInstance()->theLuaState, "Waypoint_A_3");
+	CWaypointManager::GetInstance()->AddWaypoint(anotherWaypoint,Vector3(CLuaInterface::GetInstance()->GetField("x"),
+																		CLuaInterface::GetInstance()->GetField("y"),
+																		CLuaInterface::GetInstance()->GetField("z")));
 	CWaypointManager::GetInstance()->PrintSelf();
 
 

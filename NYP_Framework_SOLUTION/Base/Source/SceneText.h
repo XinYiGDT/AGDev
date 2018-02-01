@@ -11,6 +11,7 @@
 #include "GenericEntity.h"
 #include "Enemy\Enemy.h"
 #include "CameraEffect\CameraEffects.h"
+#include "../Lua/LuaInterface.h"
 
 class ShaderProgram;
 class SceneManager;
