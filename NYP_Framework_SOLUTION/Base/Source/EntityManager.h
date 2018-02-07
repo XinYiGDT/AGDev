@@ -17,7 +17,7 @@ public:
 	void RenderUI();
 
 	//void AddEntity(EntityBase* _newEntity);
-	void AddEntity(EntityBase* _newEntity, std::string type);
+	//void AddEntity(EntityBase* _newEntity, std::string type);
 	void AddEntity(EntityBase* _newEntity, bool bAddToSpatialPartition = false);
 	bool RemoveEntity(EntityBase* _existingEntity);
 

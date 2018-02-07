@@ -4,6 +4,8 @@
 #include "RenderHelper.h"
 #include "../Waypoint/WaypointManager.h"
 
+#include "../States/StatesNPC.h"
+
 CEnemy::CEnemy()
 	: GenericEntity(NULL)
 	, defaultPosition(Vector3(0.0f, 0.0f, 0.0f))
@@ -69,6 +71,12 @@ void CEnemy::Init(bool _isMoving)
 	theMainNode = CSceneGraph::GetInstance()->AddNode(this);
 
 	isMoving = _isMoving;
+
+
+	sm = new StateMachine();
+	sm->AddState(new StateNpcRoam("Roam", this));
+	sm->AddState(new StateNpcChase("Chase", this));
+	sm->SetNextState("Roam");
 }
 
 void CEnemy::Reset(void)
@@ -145,30 +153,9 @@ CWaypoint * CEnemy::GetNextWaypoint(void)
 
 void CEnemy::Update(double dt)
 {
-	Vector3 viewVector = (target - position).Normalized();
-	if (isMoving)
+	if (sm)
 	{
-		position += viewVector * (float)m_dSpeed * (float)dt;
-
-	}
-
-	//contrain the position
-	Constrain();
-
-	//update the target
-	/*if (position.z > 300.f)
-		target.z = position.z * -1;
-	else if (position.z < -300.f)
-		target.z = position.z * -1;*/
-
-	if ((target - position).LengthSquared() < 25.0f)
-	{
-		CWaypoint* nextWaypoint = GetNextWaypoint();
-		if (nextWaypoint)
-			target = nextWaypoint->GetPosition();
-		else
-			target = Vector3(0, 0, 0);
-		cout << "Next target: " << target << endl;
+		sm->Update(dt);
 	}
 }
 

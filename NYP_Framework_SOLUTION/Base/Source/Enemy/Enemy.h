@@ -4,6 +4,7 @@
 #include "../SceneGraph.h"
 #include "../Waypoint/Waypoint.h"
 
+#include "../States/StateMachine.h"
 #include <vector>
 using namespace std;
 
@@ -32,6 +33,12 @@ public:
 	//set the terrain for the player info
 	void SetTerrain(GroundEntity* m_pTerrain);
 
+	bool GetIsMoving(void) { return isMoving; }
+	void SetIsMoving(bool _isMoving) { isMoving = _isMoving; }
+
+	double GetSpeed(void) { return m_dSpeed; }
+	void SetSpeed(double _m_speed) { m_dSpeed = _m_speed; }
+
 	//get position
 	Vector3 GetPos(void)const;
 	//get target
@@ -51,6 +58,8 @@ public:
 	//render
 	void Render(void);
 
+	StateMachine *sm;
+	std::string cur_state;
 protected:
 	Vector3 defaultPosition, defaultTarget, defaultUp;
 	Vector3 target, up;

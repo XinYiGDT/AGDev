@@ -36,6 +36,9 @@
     <ClCompile Include="Source\SpatialPartition_Grid\Grid.cpp" />
     <ClCompile Include="Source\SpatialPartition_Grid\SpatialPartition.cpp" />
     <ClCompile Include="Source\SpriteEntity.cpp" />
+    <ClCompile Include="Source\States\State.cpp" />
+    <ClCompile Include="Source\States\StateMachine.cpp" />
+    <ClCompile Include="Source\States\StatesNPC.cpp" />
     <ClCompile Include="Source\TextEntity.cpp" />
     <ClCompile Include="Source\Transform.cpp" />
     <ClCompile Include="Source\UpdateTransformation.cpp" />
@@ -76,6 +79,9 @@
     <ClInclude Include="Source\SpatialPartition_Grid\Grid.h" />
     <ClInclude Include="Source\SpatialPartition_Grid\SpatialPartition.h" />
     <ClInclude Include="Source\SpriteEntity.h" />
+    <ClInclude Include="Source\States\State.h" />
+    <ClInclude Include="Source\States\StateMachine.h" />
+    <ClInclude Include="Source\States\StatesNPC.h" />
     <ClInclude Include="Source\TextEntity.h" />
     <ClInclude Include="Source\Transform.h" />
     <ClInclude Include="Source\UpdateTransformation.h" />
