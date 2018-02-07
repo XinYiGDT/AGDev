@@ -1,8 +1,7 @@
 #include <iostream>
 using namespace std;
 
-#include "MenuState.h"
-#include "IntroState.h"
+#include "LoseState.h"
 #include "GL\glew.h"
 #include "../Application.h"
 #include "LoadTGA.h"
@@ -15,43 +14,44 @@ using namespace std;
 
 #include "KeyboardController.h"
 #include "SceneManager.h"
-CMenuState::CMenuState()
+
+CLoseState::CLoseState()
 {
 }
 
-CMenuState::~CMenuState()
+CLoseState::~CLoseState()
 {
 }
 
-void CMenuState::Init()
+void CLoseState::Init()
 {
 	//Create and attach the camera to the scene
 	camera.Init(Vector3(0, 0, 10), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	GraphicsManager::GetInstance()->AttachCamera(&camera);
 
 	//load all the meshes
-	MeshBuilder::GetInstance()->GenerateQuad("MENUSTATE_BKGROUND", Color(1, 1, 1), 1.0f);
-	MeshBuilder::GetInstance()->GetMesh("MENUSTATE_BKGROUND")->textureID = LoadTGA("Image//MenuState.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("LOSESTATE_BKGROUND", Color(1, 1, 1), 1.0f);
+	MeshBuilder::GetInstance()->GetMesh("LOSESTATE_BKGROUND")->textureID = LoadTGA("Image//IntroState.tga");
 	float halfWindowWidth = Application::GetInstance().GetWindowWidth() / 2.f;
 	float halfWindowHeight = Application::GetInstance().GetWindowHeight() / 2.f;
-	MenuStateBackground = Create::Sprite2DObject("MENUSTATE_BKGROUND", Vector3(halfWindowWidth, halfWindowHeight, 0.0f), Vector3(800.0f, 600.0f, 0.0f));
+	LoseStateBackground = Create::Sprite2DObject("LOSESTATE_BKGROUND", Vector3(halfWindowWidth, halfWindowHeight, 0.0f), Vector3(800.0f, 600.0f, 0.0f));
 
-	cout << "CMenuState loaded\n" << endl;
+	cout << "CLoseState loaded\n" << endl;
 }
 
-void CMenuState::Update(double dt)
+void CLoseState::Update(double dt)
 {
 	if (KeyboardController::GetInstance()->IsKeyReleased(VK_SPACE))
 	{
-		cout << "Loading CGameState" << endl;
-		SceneManager::GetInstance()->SetActiveScene("GameState");
+		cout << "Loading MenuState" << endl;
+		SceneManager::GetInstance()->SetActiveScene("MenuState");
 	}
 }
 
-void CMenuState::Render()
+void CLoseState::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+	
 	//GraphicsManager::GetInstance()->UpdateLightUniforms();
 
 	// Setup 3D pipeline then render 3D
@@ -67,13 +67,13 @@ void CMenuState::Render()
 	EntityManager::GetInstance()->RenderUI();
 }
 
-void CMenuState::Exit()
+void CLoseState::Exit()
 {
 	//Remove the entity from EntityManager
-	EntityManager::GetInstance()->RemoveEntity(MenuStateBackground);
+	EntityManager::GetInstance()->RemoveEntity(LoseStateBackground);
 
 	//Remove the meshes which are specific to CIntroState
-	MeshBuilder::GetInstance()->RemoveMesh("MENUSTATE_BKGROUND");
+	MeshBuilder::GetInstance()->RemoveMesh("INTROSTATE_BKGROUND");
 
 	//Detach camera from other entities
 	GraphicsManager::GetInstance()->DetachCamera();

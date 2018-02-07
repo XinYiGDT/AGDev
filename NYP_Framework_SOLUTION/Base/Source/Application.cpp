@@ -100,6 +100,8 @@ void Application::InitDisplay(void)
 	SceneManager::GetInstance()->AddScene("IntroState", new CIntroState());
 	SceneManager::GetInstance()->AddScene("MenuState", new CMenuState());
 	SceneManager::GetInstance()->AddScene("GameState", new SceneText());
+	SceneManager::GetInstance()->AddScene("WinState", new CWinState());
+	SceneManager::GetInstance()->AddScene("LoseState", new CLoseState());
 
 	//Set the active scene
 	SceneManager::GetInstance()->SetActiveScene("IntroState");
