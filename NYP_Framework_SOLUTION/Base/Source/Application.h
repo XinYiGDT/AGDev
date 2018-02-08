@@ -4,8 +4,9 @@
 #include "timer.h"
 #include "GameStateManagement\IntroState.h"
 #include "GameStateManagement\MenuState.h"
-#include "GameStateManagement\WinState.h"
-#include "GameStateManagement\LoseState.h"
+#include "GameStateManagement\InstructionState.h"
+#include "GameStateManagement\CreditState.h"
+#include "GameStateManagement\EndGameState.h"
 
 class ShaderProgram;
 struct GLFWwindow;

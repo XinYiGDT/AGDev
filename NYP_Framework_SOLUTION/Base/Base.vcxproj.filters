@@ -165,10 +165,13 @@
     <ClCompile Include="Source\States\StatesNPC.cpp">
       <Filter>States</Filter>
     </ClCompile>
-    <ClCompile Include="Source\GameStateManagement\LoseState.cpp">
+    <ClCompile Include="Source\GameStateManagement\CreditState.cpp">
       <Filter>GameStateManagement</Filter>
     </ClCompile>
-    <ClCompile Include="Source\GameStateManagement\WinState.cpp">
+    <ClCompile Include="Source\GameStateManagement\EndGameState.cpp">
+      <Filter>GameStateManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameStateManagement\InstructionState.cpp">
       <Filter>GameStateManagement</Filter>
     </ClCompile>
   </ItemGroup>
@@ -296,10 +299,13 @@
     <ClInclude Include="Source\States\StatesNPC.h">
       <Filter>States</Filter>
     </ClInclude>
-    <ClInclude Include="Source\GameStateManagement\LoseState.h">
+    <ClInclude Include="Source\GameStateManagement\CreditState.h">
       <Filter>GameStateManagement</Filter>
     </ClInclude>
-    <ClInclude Include="Source\GameStateManagement\WinState.h">
+    <ClInclude Include="Source\GameStateManagement\EndGameState.h">
+      <Filter>GameStateManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameStateManagement\InstructionState.h">
       <Filter>GameStateManagement</Filter>
     </ClInclude>
   </ItemGroup>

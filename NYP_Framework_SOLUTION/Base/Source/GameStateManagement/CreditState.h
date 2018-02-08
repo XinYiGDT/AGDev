@@ -9,11 +9,11 @@
 
 class SceneManager;
 //class TextEntity
-class CWinState : public Scene
+class CCreditState : public Scene
 {
 public:
-	CWinState();
-	~CWinState();
+	CCreditState();
+	~CCreditState();
 
 	virtual void Init();
 	virtual void Update(double dt);
@@ -22,6 +22,6 @@ public:
 
 private:
 	FPSCamera camera;
-	SpriteEntity* WinStateBackground;
+	SpriteEntity* CreditStateBackground;
 	//TextEntity* textObj[3];
 };

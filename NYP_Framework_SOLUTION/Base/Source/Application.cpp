@@ -100,8 +100,9 @@ void Application::InitDisplay(void)
 	SceneManager::GetInstance()->AddScene("IntroState", new CIntroState());
 	SceneManager::GetInstance()->AddScene("MenuState", new CMenuState());
 	SceneManager::GetInstance()->AddScene("GameState", new SceneText());
-	SceneManager::GetInstance()->AddScene("WinState", new CWinState());
-	SceneManager::GetInstance()->AddScene("LoseState", new CLoseState());
+	SceneManager::GetInstance()->AddScene("CreditState", new CCreditState());
+	SceneManager::GetInstance()->AddScene("InstructionState", new CInstructionState());
+	SceneManager::GetInstance()->AddScene("EndGameState", new CEndGameState());
 
 	//Set the active scene
 	SceneManager::GetInstance()->SetActiveScene("IntroState");

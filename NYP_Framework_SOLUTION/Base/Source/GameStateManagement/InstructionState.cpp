@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-#include "LoseState.h"
+#include "InstructionState.h"
 #include "GL\glew.h"
 #include "../Application.h"
 #include "LoadTGA.h"
@@ -15,31 +15,31 @@ using namespace std;
 #include "KeyboardController.h"
 #include "SceneManager.h"
 
-CLoseState::CLoseState()
+CInstructionState::CInstructionState()
 {
 }
 
-CLoseState::~CLoseState()
+CInstructionState::~CInstructionState()
 {
 }
 
-void CLoseState::Init()
+void CInstructionState::Init()
 {
 	//Create and attach the camera to the scene
 	camera.Init(Vector3(0, 0, 10), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	GraphicsManager::GetInstance()->AttachCamera(&camera);
 
 	//load all the meshes
-	MeshBuilder::GetInstance()->GenerateQuad("LOSESTATE_BKGROUND", Color(1, 1, 1), 1.0f);
-	MeshBuilder::GetInstance()->GetMesh("LOSESTATE_BKGROUND")->textureID = LoadTGA("Image//IntroState.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("INSTRUCTIONSTATE_BKGROUND", Color(1, 1, 1), 1.0f);
+	MeshBuilder::GetInstance()->GetMesh("INSTRUCTIONSTATE_BKGROUND")->textureID = LoadTGA("Image//InstructionState.tga");
 	float halfWindowWidth = Application::GetInstance().GetWindowWidth() / 2.f;
 	float halfWindowHeight = Application::GetInstance().GetWindowHeight() / 2.f;
-	LoseStateBackground = Create::Sprite2DObject("LOSESTATE_BKGROUND", Vector3(halfWindowWidth, halfWindowHeight, 0.0f), Vector3(800.0f, 600.0f, 0.0f));
+	InstructionStateBackground = Create::Sprite2DObject("INSTRUCTIONSTATE_BKGROUND", Vector3(halfWindowWidth, halfWindowHeight, 0.0f), Vector3(800.0f, 600.0f, 0.0f));
 
-	cout << "CLoseState loaded\n" << endl;
+	cout << "CInstructionState loaded\n" << endl;
 }
 
-void CLoseState::Update(double dt)
+void CInstructionState::Update(double dt)
 {
 	if (KeyboardController::GetInstance()->IsKeyReleased(VK_SPACE))
 	{
@@ -48,7 +48,7 @@ void CLoseState::Update(double dt)
 	}
 }
 
-void CLoseState::Render()
+void CInstructionState::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
@@ -67,10 +67,10 @@ void CLoseState::Render()
 	EntityManager::GetInstance()->RenderUI();
 }
 
-void CLoseState::Exit()
+void CInstructionState::Exit()
 {
 	//Remove the entity from EntityManager
-	EntityManager::GetInstance()->RemoveEntity(LoseStateBackground);
+	EntityManager::GetInstance()->RemoveEntity(InstructionStateBackground);
 
 	//Remove the meshes which are specific to CIntroState
 	MeshBuilder::GetInstance()->RemoveMesh("INTROSTATE_BKGROUND");

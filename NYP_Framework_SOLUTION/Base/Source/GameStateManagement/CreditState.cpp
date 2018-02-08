@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-#include "WinState.h"
+#include "CreditState.h"
 #include "GL\glew.h"
 #include "../Application.h"
 #include "LoadTGA.h"
@@ -15,31 +15,31 @@ using namespace std;
 #include "KeyboardController.h"
 #include "SceneManager.h"
 
-CWinState::CWinState()
+CCreditState::CCreditState()
 {
 }
 
-CWinState::~CWinState()
+CCreditState::~CCreditState()
 {
 }
 
-void CWinState::Init()
+void CCreditState::Init()
 {
 	//Create and attach the camera to the scene
 	camera.Init(Vector3(0, 0, 10), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	GraphicsManager::GetInstance()->AttachCamera(&camera);
 
 	//load all the meshes
-	MeshBuilder::GetInstance()->GenerateQuad("WINSTATE_BKGROUND", Color(1, 1, 1), 1.0f);
-	MeshBuilder::GetInstance()->GetMesh("WINSTATE_BKGROUND")->textureID = LoadTGA("Image//IntroState.tga");
+	MeshBuilder::GetInstance()->GenerateQuad("LOSESTATE_BKGROUND", Color(1, 1, 1), 1.0f);
+	MeshBuilder::GetInstance()->GetMesh("LOSESTATE_BKGROUND")->textureID = LoadTGA("Image//CreditState.tga");
 	float halfWindowWidth = Application::GetInstance().GetWindowWidth() / 2.f;
 	float halfWindowHeight = Application::GetInstance().GetWindowHeight() / 2.f;
-	WinStateBackground = Create::Sprite2DObject("WINSTATE_BKGROUND", Vector3(halfWindowWidth, halfWindowHeight, 0.0f), Vector3(800.0f, 600.0f, 0.0f));
+	CreditStateBackground = Create::Sprite2DObject("LOSESTATE_BKGROUND", Vector3(halfWindowWidth, halfWindowHeight, 0.0f), Vector3(800.0f, 600.0f, 0.0f));
 
-	cout << "CWinState loaded\n" << endl;
+	cout << "CCreditState loaded\n" << endl;
 }
 
-void CWinState::Update(double dt)
+void CCreditState::Update(double dt)
 {
 	if (KeyboardController::GetInstance()->IsKeyReleased(VK_SPACE))
 	{
@@ -48,7 +48,7 @@ void CWinState::Update(double dt)
 	}
 }
 
-void CWinState::Render()
+void CCreditState::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
@@ -67,10 +67,10 @@ void CWinState::Render()
 	EntityManager::GetInstance()->RenderUI();
 }
 
-void CWinState::Exit()
+void CCreditState::Exit()
 {
 	//Remove the entity from EntityManager
-	EntityManager::GetInstance()->RemoveEntity(WinStateBackground);
+	EntityManager::GetInstance()->RemoveEntity(CreditStateBackground);
 
 	//Remove the meshes which are specific to CIntroState
 	MeshBuilder::GetInstance()->RemoveMesh("INTROSTATE_BKGROUND");

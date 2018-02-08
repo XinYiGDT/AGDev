@@ -9,11 +9,11 @@
 
 class SceneManager;
 //class TextEntity
-class CLoseState : public Scene
+class CEndGameState : public Scene
 {
 public:
-	CLoseState();
-	~CLoseState();
+	CEndGameState();
+	~CEndGameState();
 
 	virtual void Init();
 	virtual void Update(double dt);
@@ -22,6 +22,6 @@ public:
 
 private:
 	FPSCamera camera;
-	SpriteEntity* LoseStateBackground;
+	SpriteEntity* EndGameStateBackground;
 	//TextEntity* textObj[3];
 };
