@@ -73,7 +73,7 @@ void CCreditState::Exit()
 	EntityManager::GetInstance()->RemoveEntity(CreditStateBackground);
 
 	//Remove the meshes which are specific to CIntroState
-	MeshBuilder::GetInstance()->RemoveMesh("INTROSTATE_BKGROUND");
+	MeshBuilder::GetInstance()->RemoveMesh("LOSESTATE_BKGROUND");
 
 	//Detach camera from other entities
 	GraphicsManager::GetInstance()->DetachCamera();

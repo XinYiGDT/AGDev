@@ -73,7 +73,7 @@ void CInstructionState::Exit()
 	EntityManager::GetInstance()->RemoveEntity(InstructionStateBackground);
 
 	//Remove the meshes which are specific to CIntroState
-	MeshBuilder::GetInstance()->RemoveMesh("INTROSTATE_BKGROUND");
+	MeshBuilder::GetInstance()->RemoveMesh("INSTRUCTIONSTATE_BKGROUND");
 
 	//Detach camera from other entities
 	GraphicsManager::GetInstance()->DetachCamera();
